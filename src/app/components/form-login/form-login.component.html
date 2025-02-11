@@ -1,0 +1,48 @@
+<div class="login-container">
+  <form [formGroup]="form" (ngSubmit)="doLogin()">
+    <h2>Login</h2>
+
+    <!-- Username Field -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        class="form-control"
+        formControlName="username"
+        placeholder="Enter your username"
+      />
+      <div *ngIf="usernameField.invalid && usernameField.touched" class="error">
+        Username is required.
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Enter your password"
+      />
+      <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
+        Password is required.
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary" [disabled]="status === 'loading'">
+      {{ status === 'loading' ? 'Logging in...' : 'Login' }}
+    </button>
+
+    <!-- Status Message -->
+    <div *ngIf="status === 'error'" class="status-message error">
+      Login failed. Please try again.
+    </div>
+    <div *ngIf="status === 'success'" class="status-message success">
+      Login successful! Redirecting...
+    </div>
+  </form>
+</div>

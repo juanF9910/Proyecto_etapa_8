@@ -11,20 +11,16 @@ import { fileURLToPath } from 'node:url';
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 
+// Import CORS
+const cors = require('cors');
+
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+// Enable CORS for requests from http://localhost:39893
+app.use(cors({
+  origin: 'http://localhost:39893', // Allow requests from this origin
+}));
 
 /**
  * Serve static files from /browser

@@ -1,0 +1,53 @@
+.post-list {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.post-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.post-author {
+  color: #555;
+  font-style: italic;
+}
+
+.post-excerpt {
+  margin: 10px 0;
+}
+
+.post-meta {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.post-date {
+  color: #999;
+  font-size: 0.85em;
+  margin-top: 10px;
+}
+
+.read-more-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.read-more-btn:hover {
+  background-color: #0056b3;
+}

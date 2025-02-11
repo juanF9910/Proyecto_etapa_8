@@ -1,0 +1,25 @@
+<h2>Create a New Blog Post</h2>
+<form [formGroup]="postForm" (ngSubmit)="createPost()">
+  <div>
+    <label for="title">Title</label>
+    <input id="title" formControlName="title" type="text" />
+    <div *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
+      <small *ngIf="postForm.get('title')?.hasError('required')">Title is required.</small>
+      <small *ngIf="postForm.get('title')?.hasError('maxLength')">Title cannot exceed 100 characters.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="content">Content</label>
+    <textarea id="content" formControlName="content"></textarea>
+    <div *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+      <small *ngIf="postForm.get('content')?.hasError('required')">Content is required.</small>
+      <small *ngIf="postForm.get('content')?.hasError('minLength')">Content must be at least 20 characters long.</small>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="postForm.invalid">Create Post</button>
+</form>
+
+<div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>

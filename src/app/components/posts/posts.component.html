@@ -1,0 +1,27 @@
+<!-- <div *ngIf="blogPosts.length > 0; else noPosts" class="post-list">
+  <div *ngFor="let post of blogPosts" class="post-card">
+    <h2 class="post-title">{{ post.title }}</h2>
+    <p class="post-author">By: <strong>{{ post.username }}</strong> (Equipo: {{ post.equipo || 'N/A' }})</p>
+    <p class="post-excerpt">{{ post.excerpt }}...</p>
+    <p class="post-meta">
+      <span><strong>Likes:</strong> {{ post.likes_count }}</span> |
+      <span><strong>Comments:</strong> {{ post.comments_count }}</span>
+    </p>
+    <p class="post-date">Published on: {{ post.created_at | date: 'medium' }}</p>
+    <button class="read-more-btn">Read More</button>
+    <hr>
+  </div>
+</div>
+
+<ng-template #noPosts>
+  <p>No blog posts available.</p>
+</ng-template> -->
+
+
+
+<div *ngFor="let item of blogPosts">
+  <h3>{{ item.title }}</h3>
+  <hr>
+</div>
+
+<p>estamos en los posts</p>
