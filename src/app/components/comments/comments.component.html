@@ -1,0 +1,13 @@
+<div class="comments-section" *ngIf="Comments.length > 0; else noComments">
+  <h3 class="comments-title">Comentarios:</h3>
+  <ul class="comments-list">
+    <li class="comment" *ngFor="let comment of Comments">
+      <p class="comment-content">{{ comment.content }}</p>
+      <small class="comment-author">Escrito por: {{ comment.username }} | {{ comment?.created_at | date:'short' }}</small>
+    </li>
+  </ul>
+</div>
+
+<ng-template #noComments>
+  <p class="no-comments">No hay comentarios para este post.</p>
+</ng-template>

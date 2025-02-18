@@ -1,27 +1,29 @@
-<!-- <div *ngIf="blogPosts.length > 0; else noPosts" class="post-list">
-  <div *ngFor="let post of blogPosts" class="post-card">
+<nav class="nav-bar">
+  <div class="button-group">
+    <!-- Mostrar botón de Register y Login solo si no está autenticado -->
+    <button class="nav-btn" *ngIf="!isAuthenticated" (click)="navigateToRegister()">Register</button>
+    <button class="nav-btn" *ngIf="!isAuthenticated" (click)="navigateToLogin()">Login</button>
+
+    <!-- Mostrar el componente de Logout solo si está autenticado -->
+    <app-logout *ngIf="isAuthenticated"></app-logout>
+  </div>
+</nav>
+
+<div *ngIf="blogPosts.length; else noPosts">
+  <div *ngFor="let post of blogPosts" class="post"
+       [ngClass]="{ 'pulsate': activePostId === post.id }"
+       (click)="handlePostClick(post.id)">
     <h2 class="post-title">{{ post.title }}</h2>
-    <p class="post-author">By: <strong>{{ post.username }}</strong> (Equipo: {{ post.equipo || 'N/A' }})</p>
-    <p class="post-excerpt">{{ post.excerpt }}...</p>
-    <p class="post-meta">
-      <span><strong>Likes:</strong> {{ post.likes_count }}</span> |
-      <span><strong>Comments:</strong> {{ post.comments_count }}</span>
-    </p>
-    <p class="post-date">Published on: {{ post.created_at | date: 'medium' }}</p>
-    <button class="read-more-btn">Read More</button>
-    <hr>
+    <p>{{ post.excerpt }}</p>
+    <small>By: {{ post.username }} | {{ post.created_at | date: 'short' }}</small>
+    <p class="post-equipo">Equipo: {{ post.equipo }}</p>
+    <div class="post-stats">
+      <span class="likes">❤️ {{ post.likes_count }} Likes</span>
+      <span class="comments">💬 {{ post.comments_count }} Comments</span>
+    </div>
   </div>
 </div>
 
 <ng-template #noPosts>
-  <p>No blog posts available.</p>
-</ng-template> -->
-
-
-
-<div *ngFor="let item of blogPosts">
-  <h3>{{ item.title }}</h3>
-  <hr>
-</div>
-
-<p>estamos en los posts</p>
+  <p class="no-posts">No posts available.</p>
+</ng-template>

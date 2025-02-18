@@ -1,4 +1,5 @@
 export interface BlogPost {
+  liked_by: { id: number; username: string; }[];
   id: number;
   author: number;               // ID of the author
   username: string;             // Username of the author
@@ -12,10 +13,17 @@ export interface BlogPost {
   comments_count: number;       // Number of comments    // Array of comments
 }
 
-export interface Comment {
+export interface BlogComment {
   id: number;
-  author: number;
+  post: number;
   username: string;
   content: string;
+  created_at: string;
+}
+
+export interface BlogLikes{
+  id: number;
+  post: number;
+  username: string;
   created_at: string;
 }

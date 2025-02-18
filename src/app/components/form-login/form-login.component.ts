@@ -1,79 +1,84 @@
-import { RequestStatus } from './../../models/request-status.model';
-import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { GeneralServiceService } from '../../services/general-service.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { GeneralServiceService } from '../../services/general-service.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-form-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  selector: 'app-login',
   templateUrl: './form-login.component.html',
-  styleUrls: ['./form-login.component.css'],
-  providers: [GeneralServiceService]
+  imports: [ CommonModule, ReactiveFormsModule],
+  styleUrls: ['./form-login.component.css']
 })
-
-export class FormLoginComponent {
-
+export class FormLoginComponent implements OnInit {
   form!: FormGroup;
-  status: RequestStatus= 'init';
-  showPassword = false;
-  errorMessage = '';
+  errorMessage: string | undefined;
+  isSubmitting: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private router: Router,
-    private generalService: GeneralServiceService
-  ) {
-    this.buildForm();
-  }
+    private generalservice: GeneralServiceService
+  ) {}
 
-  private buildForm() {
-    this.form = this.formBuilder.nonNullable.group({
+  ngOnInit(): void {
+    this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
   get usernameField() {
-    return this.form.get('username') as FormControl;
+    return this.form.get('username');
   }
 
   get passwordField() {
-    return this.form.get('password') as FormControl;
+    return this.form.get('password');
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-  doLogin() {
+//   onSubmit() {
+//     if (this.form.valid) {
+//       const { username, password } = this.form.value;
+//       this.isSubmitting = true;
+
+//       // Call the login service with form data
+//       this.generalservice.login(username, password).subscribe({
+//         next: (response) => {
+//           console.log('Login successful:', response);
+//           this.router.navigate(['/posts']);  // Redirect to dashboard or protected page
+//         },
+//         error: (error) => {
+//           this.isSubmitting = false;
+//           this.errorMessage = 'Invalid username or password. Please try again.';
+//           console.error('Login failed:', error);
+//         }
+//       });
+//     }
+//   }
+// }
+
+
+  onSubmit() {
     if (this.form.valid) {
-      const { username, password } = this.form.getRawValue();
-      this.generalService.Login(username, password).subscribe({
-        next: () => {
-          this.router.navigate(['/home']);
-          this.status = 'success';
+      const { username, password } = this.form.value;
+      this.isSubmitting = true;
+
+      // Call the login service with form data
+      this.generalservice.login(username, password).subscribe({
+        next: (response) => {
+          console.log('Login successful:', response);
+          // Store the access token in localStorage
+          localStorage.setItem('access_token', response.access_token);
+
+          // Redirect to posts or any protected page
+          this.router.navigate(['/posts']);
         },
-        error: (error: HttpErrorResponse) => {
-          if (error.status === 0) {
-            this.errorMessage = 'Unable to connect to the server. Please check your network.';
-          } else if (error.status === 401) {
-            this.errorMessage = 'Invalid username or password.';
-          } else if (error.error instanceof ProgressEvent) {
-            this.errorMessage = 'An unexpected error occurred.';
-          } else {
-            this.errorMessage = `Error: ${error.statusText} (${error.status})`;
-          }
-          console.error('Login error:', error);
+        error: (error) => {
+          this.isSubmitting = false;
+          this.errorMessage = 'Invalid username or password. Please try again.';
+          console.error('Login failed:', error);
         }
       });
-    } else {
-      this.form.markAllAsTouched();
     }
   }
-
-
-
 }

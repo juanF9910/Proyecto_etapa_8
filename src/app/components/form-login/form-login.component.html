@@ -1,48 +1,53 @@
 <div class="login-container">
-  <form [formGroup]="form" (ngSubmit)="doLogin()">
-    <h2>Login</h2>
+  <h2>Login</h2>
 
-    <!-- Username Field -->
+  <!-- Display error message if there is any -->
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Login form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+
+    <!-- Username field -->
     <div class="form-group">
       <label for="username">Username</label>
       <input
-        id="username"
         type="text"
-        class="form-control"
+        id="username"
         formControlName="username"
-        placeholder="Enter your username"
+        class="form-control"
+        [class.is-invalid]="usernameField?.invalid && usernameField?.touched"
       />
-      <div *ngIf="usernameField.invalid && usernameField.touched" class="error">
+      <!-- Validation error message for username -->
+      <div *ngIf="usernameField?.invalid && usernameField?.touched" class="invalid-feedback">
         Username is required.
       </div>
     </div>
 
-    <!-- Password Field -->
+    <!-- Password field -->
     <div class="form-group">
       <label for="password">Password</label>
       <input
-        id="password"
         type="password"
-        class="form-control"
+        id="password"
         formControlName="password"
-        placeholder="Enter your password"
+        class="form-control"
+        [class.is-invalid]="passwordField?.invalid && passwordField?.touched"
       />
-      <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
+      <!-- Validation error message for password -->
+      <div *ngIf="passwordField?.invalid && passwordField?.touched" class="invalid-feedback">
         Password is required.
       </div>
     </div>
 
-    <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary" [disabled]="status === 'loading'">
-      {{ status === 'loading' ? 'Logging in...' : 'Login' }}
-    </button>
+    <!-- Submit button -->
+    <div class="form-group">
+      <button type="submit" [disabled]="isSubmitting || form.invalid" class="btn btn-primary">
+        <span *ngIf="isSubmitting">Logging in...</span>
+        <span *ngIf="!isSubmitting">Login</span>
+      </button>
+    </div>
 
-    <!-- Status Message -->
-    <div *ngIf="status === 'error'" class="status-message error">
-      Login failed. Please try again.
-    </div>
-    <div *ngIf="status === 'success'" class="status-message success">
-      Login successful! Redirecting...
-    </div>
   </form>
 </div>

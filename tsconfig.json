@@ -20,5 +20,9 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+
+  "module": "es2020",
+
+  // other options
 }

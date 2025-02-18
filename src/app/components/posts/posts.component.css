@@ -1,53 +1,65 @@
-.post-list {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 0 15px;
+.nav-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  background-color: transparent;
 }
 
-.post-card {
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-btn {
+  background-color: #6581e4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.nav-btn:hover {
+  background-color: #5a71e1;
+}
+
+.no-posts {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  color: #666;
+}
+
+.post {
+  margin: 20px 0;
+  padding: 15px;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
+  border-radius: 10px;
   background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-equipo {
+  font-style: italic;
+  color: #555;
+  margin-top: 5px;
+}
+
+.post {
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.post.pulsate {
+  transform: scale(0.95);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .post-title {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
 }
 
-.post-author {
-  color: #555;
-  font-style: italic;
-}
-
-.post-excerpt {
-  margin: 10px 0;
-}
-
-.post-meta {
-  font-size: 0.9em;
-  color: #777;
-}
-
-.post-date {
-  color: #999;
-  font-size: 0.85em;
-  margin-top: 10px;
-}
-
-.read-more-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.read-more-btn:hover {
-  background-color: #0056b3;
-}

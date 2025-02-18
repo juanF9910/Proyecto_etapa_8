@@ -2,12 +2,16 @@ import { Routes } from '@angular/router';
 import { FormRegisterComponent } from './components/form-register/form-register.component';
 import { FormLoginComponent } from './components/form-login/form-login.component';
 import { PostsComponent } from './components/posts/posts.component';
-import { CreatePostComponent } from './components/create-post/create-post.component';  // Import your Create Post component
+import { CommentsComponent } from './components/comments/comments.component';
+import { LikesComponent } from './components/likes/likes.component';
+import { PostDetailComponent } from './components/post-detail/post-detail.component';
+import { PostCreateComponent } from './components/post-create/post-create.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'register',  // Redirect to the posts list by default
+    redirectTo: 'posts',  // Redirect to the posts list by default
     pathMatch: 'full'
   },
   {
@@ -19,12 +23,28 @@ export const routes: Routes = [
     component: FormLoginComponent
   },
   {
+    path: 'logout',
+    component: LogoutComponent
+  },
+  {
     path: 'posts',
     component: PostsComponent
   },
   {
+    path: 'posts/:postId',
+    component: PostDetailComponent
+  },
+  {
     path: 'posts/create',
-    component: CreatePostComponent  // Route for the create post form
+    component:  PostCreateComponent
+  },
+  {
+    path: 'comments/:postId',
+    component: CommentsComponent
+  },
+  {
+    path: 'likes/:postId',
+    component: LikesComponent
   },
   {
     path: '**', //si no encuentra la ruta entonces redirige a posts
