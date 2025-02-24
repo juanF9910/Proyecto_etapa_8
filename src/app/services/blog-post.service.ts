@@ -15,7 +15,6 @@ export class BlogPostService {
 
   constructor() { }
 
-  /** Obtiene los encabezados de autenticación si el usuario está autenticado */
   getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');  // Or sessionStorage, depending on your setup
 
@@ -28,7 +27,7 @@ export class BlogPostService {
     }
 
     return headers;
-}
+  }
 
 
   getBlogPosts(): Observable<BlogPost[]> {
@@ -200,6 +199,32 @@ export class BlogPostService {
             return throwError(() => new Error('No tienes permiso para editar este post.'));
           }
           console.error('Error updating post:', error);
+          return throwError(() => new Error(`Server-side error: ${error.status} - ${error.message}`));
+        })
+      );
+  }
+
+
+  deletePost(postId: number): Observable<void> {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      console.error('User is not authenticated');
+      return throwError(() => new Error('User is not authenticated'));
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.delete<void>(`${environment.apiUrl}/comments/delete/${postId}`, { headers })
+      .pipe(
+        map(() => {
+          console.log('Post deleted successfully');
+        }),
+        catchError(error => {
+          console.error('Error deleting post:', error);
           return throwError(() => new Error(`Server-side error: ${error.status} - ${error.message}`));
         })
       );

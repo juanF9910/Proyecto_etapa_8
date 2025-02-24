@@ -9,15 +9,22 @@ import { PLATFORM_ID } from '@angular/core';
 import {LikesComponent} from '../likes/likes.component';
 import {PostCreateComponent } from '../post-create/post-create.component'
 import { catchError, map, Observable, of } from 'rxjs';
+import {DeleteComponent} from '../delete/delete.component';
+
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [CommonModule, LogoutComponent, LikesComponent],
+  imports: [CommonModule, LogoutComponent, LikesComponent, DeleteComponent],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
 
 export class PostsComponent implements OnInit {
+showConfirmation: any;
+noPosts:boolean = false;
+confirmDelete(arg0: number) {
+throw new Error('Method not implemented.');
+}
   blogPosts: BlogPost[] = [];
   activePostId: number | null = null;
   isAuthenticated: boolean = false;
@@ -102,9 +109,7 @@ export class PostsComponent implements OnInit {
   }
 
 
-
   editpermission(postId: number): Observable<boolean> {
-
     return this.blogPostService.editBlogPost(postId, {}).pipe(
         map(() => true), // Si no hay error, se permite el acceso
           catchError(error => {

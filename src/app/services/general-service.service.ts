@@ -17,6 +17,32 @@ export class GeneralServiceService {
     private cookieService: CookieService
   ) { }
 
+  private currentUserId: number | null = null;
+
+  refreshToken(): Observable<any> {
+    const refreshToken = localStorage.getItem('refresh_token');
+
+    if (!refreshToken) {
+      console.error('No refresh token found');
+      return throwError(() => new Error('Missing refresh token'));
+    }
+
+    return this.http.post<any>(`${environment.apiUrl}/api/token/refresh/`, { refresh: refreshToken }).pipe(
+      tap(response => {
+        if (response.access) {
+          localStorage.setItem('access_token', response.access);
+          console.log('Token refreshed successfully');
+        }
+      }),
+      catchError(error => {
+        console.error('Token refresh failed:', error);
+        this.logout(); // Cerrar sesión si el refresh falla
+        return throwError(() => new Error('Token refresh failed'));
+      })
+    );
+  }
+
+
   register(username:string, password:string, confirm_password:string){
     return this.http.post(`${environment.apiUrl}/register/`, {
       username,
@@ -92,8 +118,6 @@ export class GeneralServiceService {
     );
   }
 
-
-
   setToken(token: string) {
     this.cookieService.set('token', token);
   }
@@ -104,6 +128,21 @@ export class GeneralServiceService {
 
   getAccessToken(): string | null {
     return localStorage.getItem('access_token');
+  }
+
+    // Method to set the user ID after login
+  setUserId(userId: number): void {
+      this.currentUserId = userId;
+  }
+
+    // Method to get the user ID
+  getUserId(): number | null {
+      return this.currentUserId;
+  }
+
+    // Method to check if user is authenticated
+  isAuthenticated(): boolean {
+      return this.currentUserId !== null;
   }
 
 }

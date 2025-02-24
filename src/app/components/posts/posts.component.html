@@ -9,14 +9,17 @@
   </div>
 </nav>
 
-<div *ngIf="blogPosts.length; else noPosts">
+<ng-template #noPosts>
+  <p class="no-posts">No posts available.</p>
+</ng-template>
+
+<div *ngIf="blogPosts.length > 0; else noPosts">
   <div *ngFor="let post of blogPosts" class="post"
        [ngClass]="{ 'pulsate': activePostId === post.id }">
 
     <h2 class="post-title">{{ post.title }}</h2>
     <p>{{ post.excerpt }}</p>
 
-      <!-- si la longitud del contenido es mayor que la longitud del extracto, muestra el enlace "Show More" que, al hacer clic en él, navegará al detalle del post. -->
     <p *ngIf="post.content.length > post.excerpt.length"
        class="show-more"
        (click)="navigateToPost(post.id); $event.stopPropagation();">
@@ -52,11 +55,11 @@
         💬
       </button>
 
-      <button class="edit-button" *ngIf="editpermission(post.id)"  (click)="navigateToEditPost(post.id); $event.stopPropagation();">
+      <button class="edit-button" *ngIf="editpermission(post.id)" (click)="navigateToEditPost(post.id); $event.stopPropagation();">
         ✏️
       </button>
 
-    </div>
+      <app-delete  *ngIf="editpermission(post.id)" [postId]="post.id" > </app-delete>
   </div>
 </div>
 

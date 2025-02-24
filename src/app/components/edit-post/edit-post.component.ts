@@ -13,6 +13,7 @@ import {ReactiveFormsModule} from '@angular/forms'; // ✅ Import ReactiveFormsM
   styleUrls: ['./edit-post.component.css'],
   imports: [CommonModule, ReactiveFormsModule] // ✅ Add CommonModule
 })
+
 export class EditPostComponent implements OnInit {
   editForm!: FormGroup;
   postId!: number;
