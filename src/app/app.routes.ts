@@ -34,6 +34,10 @@ export const routes: Routes = [
     component: PostsComponent
   },
   {
+    path: 'posts/create',
+    component:  PostCreateComponent
+  },
+  {
     path: 'posts/:postId',
     component: PostDetailComponent,
   },
@@ -41,10 +45,6 @@ export const routes: Routes = [
     path: 'posts/:postId/edit',
     component: EditPostComponent
       // canActivate: [EditPostGuard]
-  },
-  {
-    path: 'posts/create/',
-    component:  PostCreateComponent
   },
   {
     path: 'comments/:postId',

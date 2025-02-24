@@ -98,6 +98,8 @@ export class BlogPostService {
     ).pipe(catchError(this.handleError));
   }
 
+  //esta forma de obtener el id del post no es la correcta
+
   /** Obtiene el ID del post desde la URL */
   // getPostIdFromUrl(): number | null {
 
@@ -108,23 +110,36 @@ export class BlogPostService {
   // }
 
   /** Crea un nuevo post */
+
+
   createBlogPost(title: string, content: string, isPublic: string, authenticated: string, team: string, owner: string): Observable<BlogPost> {
+
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      console.error('User is not authenticated');
+      return throwError(() => new Error('User is not authenticated'));
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
     const payload = {
-      title: title.trim(),
-      content: content.trim(),
-      public: isPublic,
+      title,
+      content,
+      isPublic,
       authenticated,
       team,
       owner
     };
 
-    return this.http.post<BlogPost>(
-      `${environment.apiUrl}/posts/create/`,
-      payload,
-      { headers: this.getAuthHeaders().set('Content-Type', 'application/json') }
-    ).pipe(
+    return this.http.post<BlogPost>(`${environment.apiUrl}/posts/create/`, payload,{headers})
+      .pipe(
       map(response => {
         console.log('Post created successfully:', response);
+
         return response;
       }),
       catchError(this.handleError)

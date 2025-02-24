@@ -1,104 +1,67 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BlogPostService } from '../../services/blog-post.service';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-post-create',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './post-create.component.html',
-  styleUrls: ['./post-create.component.css']
+  styleUrls: ['./post-create.component.css'],
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class PostCreateComponent {
+  createForm: FormGroup;
 
-  form!: FormGroup;
-
-  // Options for dropdown fields
-  publicOptions = [
-    { value: 'none', label: 'None' },
-    { value: 'read only', label: 'Read Only' }
-  ];
-
-  accessOptions = [
-    { value: 'none', label: 'None' },
-    { value: 'read only', label: 'Read Only' },
-    { value: 'read and edit', label: 'Read and Edit' }
-  ];
-
-  ownerOptions = [
-    { value: 'read and edit', label: 'Read and Edit' }
-  ];
+  permissions_public = ['None', 'Read Only'];
+  permissions = ['None', 'Read Only', 'Read and Edit'];
+  permissions_owner = ['Read and Edit'];
 
   constructor(
+    private fb: FormBuilder,
     private blogPostService: BlogPostService,
     private router: Router,
-    private formBuilder: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
-    this.buildForm();
-  }
-
-  private buildForm() {
-    this.form = this.formBuilder.group({
-      title: ['', Validators.required],
+    private snackBar: MatSnackBar
+  ) {
+    this.createForm = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(100)]],
       content: ['', Validators.required],
-      public: ['read only', Validators.required],
-      authenticated: ['read only', Validators.required],
-      team: ['read and edit', Validators.required],
-      owner: ['read and edit', Validators.required]
+      public: ['', Validators.required],
+      authenticated: ['', Validators.required],
+      team: ['', Validators.required],
+      owner: ['', Validators.required]
     });
   }
 
-  get titleField() {
-    return this.form.get('title') as FormControl;
-  }
-
-  get contentField() {
-    return this.form.get('content') as FormControl;
-  }
-
-  get publicField() {
-    return this.form.get('public') as FormControl;
-  }
-
-  get authenticatedField() {
-    return this.form.get('authenticated') as FormControl;
-  }
-
-  get teamField() {
-    return this.form.get('team') as FormControl;
-  }
-
-  get ownerField() {
-    return this.form.get('owner') as FormControl;
-  }
-
-  // Create post using all form values.
-  createPost() {
-    if (this.form.valid) {
-      const postData = this.form.getRawValue();
-      // You can log or adjust postData as needed before sending it.
-      this.blogPostService.createBlogPost(
-        postData.title,
-        postData.content,
-        postData.public,
-        postData.authenticated,
-        postData.team,
-        postData.owner
-      )
-        .subscribe({
-          next: () => {
-            this.router.navigate(['/posts']);
-          },
-          error: (error) => {
-            console.error('Error creating post:', error);
-          }
-        });
-    } else {
-      this.form.markAllAsTouched();
+  onSubmit(): void {
+    if (this.createForm.invalid) {
+      this.showMessage('Por favor completa los campos correctamente.', 'error');
+      return;
     }
+
+    const { title, content, public: isPublic, authenticated, team, owner } = this.createForm.value;
+
+    this.blogPostService.createBlogPost(title, content, isPublic, authenticated, team, owner).subscribe({
+      next: () => {
+        this.showMessage('Post creado exitosamente.', 'success');
+        this.router.navigate(['/posts']);
+      },
+      error: (err) => {
+        this.showMessage(err.message, 'error');
+      }
+    });
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/posts']);
+  }
+
+  private showMessage(message: string, type: 'success' | 'error'): void {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
+      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error'
+    });
   }
 }

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-delete',
   standalone: true,  // Si es un componente standalone
-  imports: [],  // Agrega CommonModule aquí
+  imports: [CommonModule],  // Agrega CommonModule aquí
   templateUrl: './delete.component.html',
   styleUrl: './delete.component.css'
 })

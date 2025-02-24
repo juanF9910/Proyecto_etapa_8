@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PostDetailComponent {
   post: BlogPost | null = null;
-  postId: number | null = null;
+  postId: number = 0;
 
   constructor(private blogPostService: BlogPostService,
     private router: Router,
@@ -32,13 +32,13 @@ export class PostDetailComponent {
       this.postId = Number(id);
     });
 
-    this.getPostDetail();
+    this.getPostDetail(this.postId);
   }
 
-  getPostDetail(): void {
+  getPostDetail(postId:number): void {
     //this.postId = this.blogPostService.getPostIdFromUrl();
-    if (this.postId !== null) {
-      this.blogPostService.getDetailPost(this.postId).subscribe((post: BlogPost) => {
+    if (postId !== null) {
+      this.blogPostService.getDetailPost(postId).subscribe((post: BlogPost) => {
         this.post = post;
       });
     } else {

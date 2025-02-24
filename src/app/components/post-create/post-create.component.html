@@ -1,37 +1,60 @@
-<form [formGroup]="form" (ngSubmit)="createPost()">
-  <label for="title">Title</label>
-  <input id="title" type="text" formControlName="title" />
+<div class="create-post-container">
+  <h2>Crear Nueva Publicación</h2>
 
-  <label for="content">Content</label>
-  <textarea id="content" formControlName="content"></textarea>
+  <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+    <!-- Título -->
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input id="title" type="text" class="form-control" formControlName="title" />
+      <div *ngIf="createForm.get('title')?.invalid && createForm.get('title')?.touched" class="error">
+        El título es obligatorio y debe tener máximo 100 caracteres.
+      </div>
+    </div>
 
-  <label for="public">Public Access</label>
-  <select id="public" formControlName="public">
-    <option *ngFor="let option of publicOptions" [value]="option.value">
-      {{ option.label }}
-    </option>
-  </select>
+    <!-- Contenido -->
+    <div class="form-group">
+      <label for="content">Contenido</label>
+      <textarea id="content" class="form-control" rows="6" formControlName="content"></textarea>
+      <div *ngIf="createForm.get('content')?.invalid && createForm.get('content')?.touched" class="error">
+        El contenido es obligatorio.
+      </div>
+    </div>
 
-  <label for="authenticated">Authenticated Users</label>
-  <select id="authenticated" formControlName="authenticated">
-    <option *ngFor="let option of accessOptions" [value]="option.value">
-      {{ option.label }}
-    </option>
-  </select>
+    <!-- Categoría y Permisos en dos columnas con títulos -->
+    <div class="form-grid">
+      <div class="form-column labels title">Categoría</div>
+      <div class="form-column inputs title">Acceso</div>
 
-  <label for="team">Team Access</label>
-  <select id="team" formControlName="team">
-    <option *ngFor="let option of accessOptions" [value]="option.value">
-      {{ option.label }}
-    </option>
-  </select>
+      <div class="form-column labels">
+        <label for="public">Público</label>
+        <label for="authenticated">Autenticado</label>
+        <label for="team">Equipo</label>
+        <label for="owner">Propietario</label>
+      </div>
 
-  <label for="owner">Owner Access</label>
-  <select id="owner" formControlName="owner">
-    <option *ngFor="let option of ownerOptions" [value]="option.value">
-      {{ option.label }}
-    </option>
-  </select>
+      <div class="form-column inputs">
+        <select id="public" class="form-control" formControlName="public">
+          <option *ngFor="let permission of permissions_public" [value]="permission">{{ permission }}</option>
+        </select>
 
-  <button type="submit" [disabled]="form.invalid">Create Post</button>
-</form>
+        <select id="authenticated" class="form-control" formControlName="authenticated">
+          <option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</option>
+        </select>
+
+        <select id="team" class="form-control" formControlName="team">
+          <option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</option>
+        </select>
+
+        <select id="owner" class="form-control" formControlName="owner" [disabled]="true">
+          <option *ngFor="let permission of permissions_owner" [value]="permission">{{ permission }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid">Crear Publicación</button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    </div>
+  </form>
+</div>

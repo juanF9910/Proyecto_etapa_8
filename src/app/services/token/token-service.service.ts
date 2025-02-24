@@ -26,6 +26,4 @@ export class TokenServiceService {
   clearAll(): void {
     localStorage.clear();
   }
-
-
 }
