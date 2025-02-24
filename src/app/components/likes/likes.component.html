@@ -1,13 +1,15 @@
-<div *ngIf="Like.length > 0; else noLikes">
-  <h3>Likes:</h3>
-  <ul>
-    <li *ngFor="let like of Like">
-      <p>{{ like.username }} le dio like</p>
-      <small>Creado : {{ like.created_at }}</small>
+<div class="likes-container" *ngIf="Like.length > 0; else noLikes">
+  <h2>Likes:</h2>
+  <ul class="likes-list">
+    <li class="like-item" *ngFor="let like of Like">
+      <p>{{ like.username }}</p>
     </li>
   </ul>
 </div>
 
+<!-- No Likes Message -->
 <ng-template #noLikes>
-  <p>No hay likes para este post.</p>
+  <div class="no-likes-container">
+    <p class="no-likes-message">No hay likes para este post.</p>
+  </div>
 </ng-template>

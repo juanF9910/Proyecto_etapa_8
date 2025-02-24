@@ -7,6 +7,9 @@ import { LikesComponent } from './components/likes/likes.component';
 import { PostDetailComponent } from './components/post-detail/post-detail.component';
 import { PostCreateComponent } from './components/post-create/post-create.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { EditPostGuard } from './guards/permisos.guard';
+
+import {EditPostComponent} from './components/edit-post/edit-post.component';
 
 export const routes: Routes = [
   {
@@ -32,10 +35,15 @@ export const routes: Routes = [
   },
   {
     path: 'posts/:postId',
-    component: PostDetailComponent
+    component: PostDetailComponent,
   },
   {
-    path: 'posts/create',
+    path: 'posts/:postId/edit',
+    component: EditPostComponent
+      // canActivate: [EditPostGuard]
+  },
+  {
+    path: 'posts/create/',
     component:  PostCreateComponent
   },
   {

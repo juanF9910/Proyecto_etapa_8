@@ -63,24 +63,7 @@ export class GeneralServiceService {
     throw new Error('Method not implemented.');
   }
 
-  // logout(): Observable<any> {
-  //   return this.http.post(`${environment.apiUrl}/logout/`, null, {
-  //     observe: 'response',
-  //     withCredentials: true
-  //   }).pipe(
-  //     tap(() => {
-  //       console.log('Logout successful');
-  //       // Optionally delete the token from localStorage (if used)
-  //       localStorage.removeItem('access_token');
-  //       localStorage.removeItem('refresh_token');
 
-  //     }),
-  //     catchError(error => {
-  //       console.error('Logout failed:', error);
-  //       return throwError(() => new Error('Logout failed'));
-  //     })
-  //   );
-  // }
   logout(): Observable<any> {
     const accessToken = localStorage.getItem('access_token');
     const refreshToken = localStorage.getItem('refresh_token');

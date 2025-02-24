@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { GeneralServiceService } from '../../services/general-service.service';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './form-login.component.html',
@@ -14,6 +15,7 @@ export class FormLoginComponent implements OnInit {
   form!: FormGroup;
   errorMessage: string | undefined;
   isSubmitting: boolean = false;
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -36,27 +38,6 @@ export class FormLoginComponent implements OnInit {
     return this.form.get('password');
   }
 
-//   onSubmit() {
-//     if (this.form.valid) {
-//       const { username, password } = this.form.value;
-//       this.isSubmitting = true;
-
-//       // Call the login service with form data
-//       this.generalservice.login(username, password).subscribe({
-//         next: (response) => {
-//           console.log('Login successful:', response);
-//           this.router.navigate(['/posts']);  // Redirect to dashboard or protected page
-//         },
-//         error: (error) => {
-//           this.isSubmitting = false;
-//           this.errorMessage = 'Invalid username or password. Please try again.';
-//           console.error('Login failed:', error);
-//         }
-//       });
-//     }
-//   }
-// }
-
 
   onSubmit() {
     if (this.form.valid) {
@@ -65,7 +46,7 @@ export class FormLoginComponent implements OnInit {
 
       // Call the login service with form data
       this.generalservice.login(username, password).subscribe({
-        next: (response) => {
+        next: (response: { access_token: string; }) => {
           console.log('Login successful:', response);
           // Store the access token in localStorage
           localStorage.setItem('access_token', response.access_token);
@@ -73,7 +54,7 @@ export class FormLoginComponent implements OnInit {
           // Redirect to posts or any protected page
           this.router.navigate(['/posts']);
         },
-        error: (error) => {
+        error: (error: any) => { // Explicitly type the error parameter
           this.isSubmitting = false;
           this.errorMessage = 'Invalid username or password. Please try again.';
           console.error('Login failed:', error);
@@ -81,4 +62,20 @@ export class FormLoginComponent implements OnInit {
       });
     }
   }
+
+  navigateToRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  clearForm() {
+    this.form.reset();
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+
+  // Add a method to check if the user is already logged in
+
 }

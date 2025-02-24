@@ -1,0 +1,229 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  text-align: center; /* Asegura que el texto esté centrado */
+}
+
+
+/* Login Container */
+.login-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  margin: auto; /* Centra horizontalmente */
+}
+
+
+/* Form Title */
+h2 {
+  color: #4A00E0;
+  margin-bottom: 1rem;
+}
+
+/* Error Message */
+.error-message {
+  color: #ff4d4d;
+  background: #ffe6e6;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+/* Labels */
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input Fields */
+input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #8E2DE2;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #32CD32;
+  box-shadow: 0 0 8px rgba(50, 205, 50, 0.5);
+}
+
+/* Validation Error */
+.invalid-feedback {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Submit Button */
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #32CD32, #4A00E0);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #4A00E0, #32CD32);
+}
+
+/* Register Container */
+.register-container {
+  margin-top: 15px;
+}
+
+.register-container p {
+  color: #333;
+  font-size: 14px;
+}
+
+.register-container a {
+  color: #32CD32;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.register-container a:hover {
+  text-decoration: underline;
+}
+
+
+.button-group {
+  display: flex;
+  justify-content: center; /* Center both buttons */
+  gap: 10px; /* Space between the buttons */
+  margin-top: 15px;
+}
+
+.cancel-btn {
+  background-color: #dc3545; /* Red color for cancel */
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+.redirect-to-register {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.redirect-to-register a {
+  color: #007bff;  /* Blue color for the link */
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.redirect-to-register a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 35px; /* Ensure space for the toggle button */
+}
+
+
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px; /* Make icon even smaller */
+    padding: 0; /* Remove unnecessary padding */
+    width: 20px; /* Set a fixed small width */
+    height: 20px; /* Set a fixed small height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+}
+
+
+.toggle-password:hover,
+.toggle-password:focus {
+  background: transparent !important; /* Ensures transparency */
+  box-shadow: none !important; /* Removes any unwanted effects */
+  color: inherit; /* Keeps the color unchanged */
+}
+
+.toggle-password:focus {
+  outline: none; /* Remove focus outline */
+}
+
+.toggle-password:hover {
+  color: inherit; /* Keep color unchanged */
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}
+

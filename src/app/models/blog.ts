@@ -3,14 +3,18 @@ export interface BlogPost {
   id: number;
   author: number;               // ID of the author
   username: string;             // Username of the author
-  equipo: string | null;        // Team name (group), nullable
   title: string;                // Title of the post
   content: string;              // Full content of the post
   excerpt: string;              // First 200 characters of the content
-  post_permissions: any;        // Permissions (you can refine this type)
+  public: string;              // Public or private post
+  authenticated: string;       // Authenticated or not
+  team: string;          // Team name (group), nullable
+  owner: string;                // Owner of the post
   created_at: string;           // Date when the post was created
+  updated_at: string;           // Date when the post was last updated
   likes_count: number;          // Number of likes
   comments_count: number;       // Number of comments    // Array of comments
+  equipo: string | null;        // Team name (group), nullable
 }
 
 export interface BlogComment {

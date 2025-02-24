@@ -1,1 +1,37 @@
-<h1>este formulario funciona</h1>
+<form [formGroup]="form" (ngSubmit)="createPost()">
+  <label for="title">Title</label>
+  <input id="title" type="text" formControlName="title" />
+
+  <label for="content">Content</label>
+  <textarea id="content" formControlName="content"></textarea>
+
+  <label for="public">Public Access</label>
+  <select id="public" formControlName="public">
+    <option *ngFor="let option of publicOptions" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <label for="authenticated">Authenticated Users</label>
+  <select id="authenticated" formControlName="authenticated">
+    <option *ngFor="let option of accessOptions" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <label for="team">Team Access</label>
+  <select id="team" formControlName="team">
+    <option *ngFor="let option of accessOptions" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <label for="owner">Owner Access</label>
+  <select id="owner" formControlName="owner">
+    <option *ngFor="let option of ownerOptions" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <button type="submit" [disabled]="form.invalid">Create Post</button>
+</form>

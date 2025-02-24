@@ -3,7 +3,7 @@ import { CommentsComponent } from './../comments/comments.component';
 import { CommonModule } from '@angular/common';
 import { BlogPostService } from '../../services/blog-post.service';
 import { BlogPost } from '../../models/blog';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-post-detail',
   imports: [CommonModule, CommentsComponent],
@@ -14,14 +14,29 @@ export class PostDetailComponent {
   post: BlogPost | null = null;
   postId: number | null = null;
 
-  constructor(private blogPostService: BlogPostService) {}
+  constructor(private blogPostService: BlogPostService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('postId');
+      if (!id || isNaN(Number(id))) {
+        console.error("Invalid post ID:", id);
+        this.router.navigate(['/posts']); // Redirect or show an error message
+        return;
+      }
+
+      this.postId = Number(id);
+    });
+
     this.getPostDetail();
   }
 
   getPostDetail(): void {
-    this.postId = this.blogPostService.getPostIdFromUrl();
+    //this.postId = this.blogPostService.getPostIdFromUrl();
     if (this.postId !== null) {
       this.blogPostService.getDetailPost(this.postId).subscribe((post: BlogPost) => {
         this.post = post;

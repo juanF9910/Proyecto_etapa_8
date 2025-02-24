@@ -76,8 +76,6 @@ export class PostCreateComponent {
     return this.form.get('owner') as FormControl;
   }
 
-
-
   // Create post using all form values.
   createPost() {
     if (this.form.valid) {

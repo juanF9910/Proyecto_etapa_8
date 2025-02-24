@@ -12,52 +12,74 @@
         formControlName="username"
         placeholder="Enter your username"
       />
-      <div *ngIf="nameField.invalid && nameField.touched" class="error">
+      <div *ngIf="nameField.invalid && nameField.touched" class="invalid-feedback">
         Username is required.
       </div>
     </div>
 
     <!-- Password Field -->
-    <div class="form-group">
+    <div class="form-group password-wrapper">
       <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        class="form-control"
-        formControlName="password"
-        placeholder="Enter your password"
-      />
-      <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
+      <div class="password-container">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="Enter your password"
+        />
+        <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+          {{ showPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+      <div *ngIf="passwordField.invalid && passwordField.touched" class="invalid-feedback">
         Password is required.
       </div>
     </div>
 
     <!-- Confirm Password Field -->
-    <div class="form-group">
+    <div class="form-group password-wrapper">
       <label for="confirm_password">Confirm Password</label>
-      <input
-        id="confirm_password"
-        type="password"
-        class="form-control"
-        formControlName="confirm_password"
-        placeholder="Confirm your password"
-      />
-      <div *ngIf="confpasswordField.invalid && confpasswordField.touched" class="error">
+      <div class="password-container">
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          id="confirm_password"
+          formControlName="confirm_password"
+          class="form-control"
+          placeholder="Confirm your password"
+        />
+        <button type="button" class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+          {{ showConfirmPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+      <div *ngIf="confpasswordField.invalid && confpasswordField.touched" class="invalid-feedback">
         Confirmation password is required.
       </div>
     </div>
 
-    <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary" [disabled]="status === 'loading'">
-      {{ status === 'loading' ? 'Registering...' : 'Register' }}
-    </button>
+    <!-- Buttons (Register & Cancel) -->
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary" [disabled]="status === 'loading'">
+        {{ status === 'loading' ? 'Registering...' : 'Register' }}
+      </button>
+      <button type="button" class="btn btn-secondary cancel-btn" (click)="clearForm()">
+        Cancel
+      </button>
+    </div>
 
     <!-- Status Messages -->
-    <div *ngIf="status === 'error'" class="status-message error">
+    <div *ngIf="status === 'error'" class="error-message">
       Registration failed. Please try again.
     </div>
-    <div *ngIf="status === 'success'" class="status-message success">
+    <div *ngIf="status === 'success'" class="success-message">
       Registration successful! Redirecting to login...
+    </div>
+
+    <!-- Redirect to Login -->
+    <div class="redirect-to-register">
+      <p>Already have an account?
+        <a (click)="navigateToLogin()">Log in</a>
+      </p>
     </div>
   </form>
 </div>

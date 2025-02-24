@@ -1,25 +1,61 @@
 <nav class="nav-bar">
   <div class="button-group">
-    <!-- Mostrar botón de Register y Login solo si no está autenticado -->
     <button class="nav-btn" *ngIf="!isAuthenticated" (click)="navigateToRegister()">Register</button>
     <button class="nav-btn" *ngIf="!isAuthenticated" (click)="navigateToLogin()">Login</button>
 
-    <!-- Mostrar el componente de Logout solo si está autenticado -->
+    <button class="nav-btn" *ngIf="isAuthenticated" (click)="navigateToCreatePost()">Create Post</button>
+
     <app-logout *ngIf="isAuthenticated"></app-logout>
   </div>
 </nav>
 
 <div *ngIf="blogPosts.length; else noPosts">
   <div *ngFor="let post of blogPosts" class="post"
-       [ngClass]="{ 'pulsate': activePostId === post.id }"
-       (click)="handlePostClick(post.id)">
+       [ngClass]="{ 'pulsate': activePostId === post.id }">
+
     <h2 class="post-title">{{ post.title }}</h2>
     <p>{{ post.excerpt }}</p>
+
+      <!-- si la longitud del contenido es mayor que la longitud del extracto, muestra el enlace "Show More" que, al hacer clic en él, navegará al detalle del post. -->
+    <p *ngIf="post.content.length > post.excerpt.length"
+       class="show-more"
+       (click)="navigateToPost(post.id); $event.stopPropagation();">
+      Show More
+    </p>
+
     <small>By: {{ post.username }} | {{ post.created_at | date: 'short' }}</small>
     <p class="post-equipo">Equipo: {{ post.equipo }}</p>
+
     <div class="post-stats">
-      <span class="likes">❤️ {{ post.likes_count }} Likes</span>
-      <span class="comments">💬 {{ post.comments_count }} Comments</span>
+      <div class="likes-container"
+           (mouseenter)="showLikes[post.id] = true"
+           (mouseleave)="showLikes[post.id] = false">
+        <span class="likes-text"> {{ post.likes_count }} Likes</span>
+        <div *ngIf="showLikes[post.id]" class="likes-popup">
+          <app-likes [postId]="post.id"></app-likes>
+        </div>
+      </div>
+
+      <span class="comments"
+            (click)="navigateToPost(post.id); $event.stopPropagation();">
+         {{ post.comments_count }} Comments
+      </span>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="post-buttons">
+      <button class="like-button" *ngIf="isAuthenticated" (click)="likePost(post.id); $event.stopPropagation();">
+        ❤️
+      </button>
+
+      <button class="comment-button" *ngIf="isAuthenticated" (click)="navigateToPost(post.id); $event.stopPropagation();">
+        💬
+      </button>
+
+      <button class="edit-button" *ngIf="editpermission(post.id)"  (click)="navigateToEditPost(post.id); $event.stopPropagation();">
+        ✏️
+      </button>
+
     </div>
   </div>
 </div>

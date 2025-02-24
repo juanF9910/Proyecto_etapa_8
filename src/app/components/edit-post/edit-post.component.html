@@ -1,0 +1,68 @@
+<div class="edit-post-container" *ngIf="!isLoading; else loading">
+  <h2>Editar Publicación</h2>
+
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <!-- Título -->
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input id="title" type="text" class="form-control" formControlName="title" />
+      <div *ngIf="editForm.get('title')?.invalid && editForm.get('title')?.touched" class="error">
+        El título es obligatorio y debe tener máximo 100 caracteres.
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="form-group">
+      <label for="content">Contenido</label>
+      <textarea id="content" class="form-control" rows="6" formControlName="content"></textarea>
+      <div *ngIf="editForm.get('content')?.invalid && editForm.get('content')?.touched" class="error">
+        El contenido es obligatorio.
+      </div>
+    </div>
+
+    <!-- Categoría y Permisos en dos columnas con títulos -->
+    <div class="form-grid">
+      <!-- Encabezados de columnas -->
+      <div class="form-column labels title">Category</div>
+      <div class="form-column inputs title">Access</div>
+
+      <!-- Columna Izquierda (Categoría) -->
+      <div class="form-column labels">
+        <label for="public">Public</label>
+        <label for="authenticated">Authenticated</label>
+        <label for="team">Team</label>
+        <label for="owner">Owner</label>
+      </div>
+
+      <!-- Columna Derecha (Dropdowns) -->
+      <div class="form-column inputs">
+        <select id="public" class="form-control" formControlName="public">
+          <option *ngFor="let permission of permissions_public" [value]="permission">{{ permission }}</option>
+        </select>
+
+        <select id="authenticated" class="form-control" formControlName="authenticated">
+          <option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</option>
+        </select>
+
+        <select id="team" class="form-control" formControlName="team">
+          <option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</option>
+        </select>
+
+        <select id="owner" class="form-control" formControlName="owner" [disabled]="true">
+          <option *ngFor="let permission of permissions_owner" [value]="permission">{{ permission }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Guardar Cambios</button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    </div>
+  </form>
+</div>
+
+<!-- Cargando -->
+<ng-template #loading>
+  <p>Cargando post...</p>
+</ng-template>

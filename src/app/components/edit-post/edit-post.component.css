@@ -1,0 +1,116 @@
+/* Contenedor Principal */
+.edit-post-container {
+  max-width: 700px; /* Aumentado para dar más espacio */
+  margin: 40px auto;
+  padding: 25px;
+  background: linear-gradient(to right, #A5D6A7, #90CAF9, #CE93D8);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Ajuste de la cuadrícula del formulario */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+  gap: 25px; /* Mayor espacio entre columnas */
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px; /* Separa más los elementos dentro de cada columna */
+}
+
+/* Ajuste de etiquetas */
+.labels {
+  text-align: left;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.inputs {
+  width: 100%;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background: white;
+  color: #333;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(50, 50, 50, 0.2);
+  border-color: #2196F3;
+}
+
+/* Mejor ajuste para select */
+select {
+  appearance: none;
+  background-color: white;
+  cursor: pointer;
+  padding-right: 10px;
+}
+
+/* Títulos de las columnas */
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 15px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+}
+
+/* Botones */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 12px 25px;
+  border: none;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary {
+  background: #66BB6A;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #43A047;
+}
+
+.btn-secondary {
+  background: #BA68C8;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #8E24AA;
+}

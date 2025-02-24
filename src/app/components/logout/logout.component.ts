@@ -15,7 +15,7 @@ export class LogoutComponent {
   constructor(
     private generalService: GeneralServiceService,
     private router: Router
-  ) { }
+  ) {}
 
   logout(): void {
     this.generalService.logout().subscribe({
@@ -31,5 +31,6 @@ export class LogoutComponent {
       }
     });
   }
+
 }
 

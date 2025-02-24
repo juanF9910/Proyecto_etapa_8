@@ -1,0 +1,44 @@
+/* Contenedor principal del post */
+.post-container {
+  background: #f4f8ff; /* Fondo azul pastel suave */
+  color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Título del post */
+.post-title {
+  font-size: 2rem;
+  color: #4A90E2; /* Azul pastel */
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Extracto del post */
+.post-excerpt {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+/* Metadatos del post (autor y fecha) */
+.post-meta {
+  font-size: 0.9rem;
+  color: #7B7B7B;
+  display: block;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Línea divisoria entre el post y los comentarios */
+.divider {
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, #4CAF50, #4A90E2, #9C27B0);
+  margin: 20px auto;
+  border-radius: 5px;
+}

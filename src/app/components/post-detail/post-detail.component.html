@@ -1,7 +1,9 @@
-<div>
-  <h2>{{ post?.title }}</h2>
-  <p>{{ post?.excerpt }}</p>
-  <small>Autor del post: {{ post?.username }} | {{ post?.created_at | date:'short' }}</small>
+<div class="post-container">
+  <h2 class="post-title">{{ post?.title }}</h2>
+  <p class="post-excerpt">{{ post?.excerpt }}</p>
+  <small class="post-meta">Autor: {{ post?.username }} | {{ post?.created_at | date:'short' }}</small>
+
+  <div class="divider"></div> <!-- Línea divisoria elegante -->
+
   <app-comments></app-comments>
 </div>
-

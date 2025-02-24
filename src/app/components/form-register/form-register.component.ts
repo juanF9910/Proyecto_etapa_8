@@ -16,6 +16,8 @@ import { RequestStatus } from './../../models/request-status.model';
 export class FormRegisterComponent implements OnInit {
   form!: FormGroup;
   status: RequestStatus = 'init';
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private generalService: GeneralServiceService,
@@ -65,5 +67,22 @@ export class FormRegisterComponent implements OnInit {
     }else{
       this.form.markAllAsTouched();
     }
+  }
+
+
+  navigateToLogin(): void {
+    this.router.navigate(['/login']);
+  }
+
+  clearForm(): void {
+    this.form.reset();
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 }

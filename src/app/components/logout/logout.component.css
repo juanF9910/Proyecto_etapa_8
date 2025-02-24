@@ -1,25 +1,25 @@
 .cute-button {
-  background-color: #ff87ab; /* Soft pink color */
+  background: linear-gradient(135deg, #32CD32, #4A00E0);
   color: white;
+  display: flex;
+  border: none;
+  padding: 12px 24px;
   font-size: 16px;
   font-weight: bold;
-  border-radius: 25px; /* Rounded edges */
-  padding: 12px 30px; /* Space inside the button */
-  border: none;
+  border-radius: 8px;
+  justify-content: flex-end;
   cursor: pointer;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  transition: all 0.3s ease-in-out; /* Smooth transition on hover */
+  transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cute-button:hover {
-  background-color: #ff5f7f; /* Darker pink on hover */
-  transform: translateY(-2px); /* Slight lift effect */
+  background: linear-gradient(135deg, #4A00E0, #32CD32);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .cute-button:active {
-  transform: translateY(2px); /* Button presses down on click */
-}
-
-.cute-button:focus {
-  outline: none; /* Remove focus outline */
+  transform: scale(0.95);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

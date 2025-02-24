@@ -25,29 +25,42 @@
       </div>
     </div>
 
-    <!-- Password field -->
-    <div class="form-group">
+    <!-- Password field with show/hide toggle -->
+    <div class="form-group password-wrapper">
       <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        formControlName="password"
-        class="form-control"
-        [class.is-invalid]="passwordField?.invalid && passwordField?.touched"
-      />
+      <div class="password-container">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="passwordField?.invalid && passwordField?.touched"
+        />
+        <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+          {{ showPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
       <!-- Validation error message for password -->
       <div *ngIf="passwordField?.invalid && passwordField?.touched" class="invalid-feedback">
         Password is required.
       </div>
     </div>
 
-    <!-- Submit button -->
-    <div class="form-group">
+    <!-- Buttons (Login & Cancel on the same line) -->
+    <div class="button-group">
       <button type="submit" [disabled]="isSubmitting || form.invalid" class="btn btn-primary">
         <span *ngIf="isSubmitting">Logging in...</span>
         <span *ngIf="!isSubmitting">Login</span>
       </button>
+      <button type="button" class="btn btn-secondary cancel-btn" (click)="clearForm()">
+        Cancel
+      </button>
     </div>
-
   </form>
+
+  <!-- Register link -->
+  <div class="redirect-to-register">
+    <p>Don't have an account?</p>
+    <a (click)="navigateToRegister()">Register here</a>
+  </div>
 </div>

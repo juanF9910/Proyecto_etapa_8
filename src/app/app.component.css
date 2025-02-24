@@ -4,9 +4,10 @@ body {
 }
 
 .header {
-  background: linear-gradient(135deg, #3b82f6, #9333ea);
+  background: linear-gradient(135deg, #3b82f6, #9333ea, #59db2d);
   padding: 20px 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(249, 248, 248, 0.1);
+  color: white;
 }
 
 .container {
