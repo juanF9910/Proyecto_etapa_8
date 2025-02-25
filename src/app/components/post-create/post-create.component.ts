@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BlogPostService } from '../../services/blog-post.service';
 import { Router } from '@angular/router';
@@ -13,12 +13,12 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./post-create.component.css'],
   imports: [CommonModule, ReactiveFormsModule]
 })
-export class PostCreateComponent {
+export class PostCreateComponent implements OnInit {
   createForm: FormGroup;
 
-  permissions_public = ['None', 'Read Only'];
-  permissions = ['None', 'Read Only', 'Read and Edit'];
-  permissions_owner = ['Read and Edit'];
+  permissions_public = ['none', 'read only'];
+  permissions = ['none', 'read only', 'read and edit'];
+  permissions_owner = ['read and edit'];
 
   constructor(
     private fb: FormBuilder,
@@ -29,13 +29,20 @@ export class PostCreateComponent {
     this.createForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       content: ['', Validators.required],
-      is_public: ['', Validators.required],
-      authenticated: ['', Validators.required],
-      team: ['', Validators.required],
-      owner: ['', Validators.required]
+      is_public: ['read only', Validators.required],
+      authenticated: ['read only', Validators.required],
+      team: ['read and edit', Validators.required],
+      owner: ['read and edit', Validators.required]
     });
 
     console.log("Form initialized:", this.createForm);
+  }
+
+  ngOnInit(){
+    this.createForm.valueChanges.subscribe((value) => {
+      console.log("Form value changes:", value);
+    }
+    );
   }
 
   onSubmit(): void {
@@ -47,6 +54,7 @@ export class PostCreateComponent {
     }
 
     const { title, content, is_public, authenticated, team, owner } = this.createForm.value;
+    console.log("Form data being sent:", { title, content, is_public, authenticated, team, owner });
 
     this.blogPostService.createBlogPost(title, content, is_public, authenticated, team, owner).subscribe({
       next: () => {
@@ -54,6 +62,7 @@ export class PostCreateComponent {
         this.router.navigate(['/posts']);
       },
       error: (err) => {
+        console.error("Error response from backend:", err);
         this.showMessage(err.message, 'error');
       }
     });

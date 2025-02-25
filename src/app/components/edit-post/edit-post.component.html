@@ -1,4 +1,4 @@
-<div class="edit-post-container" *ngIf="!isLoading; else loading">
+<div class="edit-post-container" *ngIf="editForm; else loading">
   <h2>Editar Publicación</h2>
 
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
@@ -28,7 +28,7 @@
 
       <!-- Columna Izquierda (Categoría) -->
       <div class="form-column labels">
-        <label for="public">Public</label>
+        <label for="is_public">Public</label>
         <label for="authenticated">Authenticated</label>
         <label for="team">Team</label>
         <label for="owner">Owner</label>
@@ -36,7 +36,7 @@
 
       <!-- Columna Derecha (Dropdowns) -->
       <div class="form-column inputs">
-        <select id="public" class="form-control" formControlName="public">
+        <select id="is_public" class="form-control" formControlName="is_public">
           <option *ngFor="let permission of permissions_public" [value]="permission">{{ permission }}</option>
         </select>
 

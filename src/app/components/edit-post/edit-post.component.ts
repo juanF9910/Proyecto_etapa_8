@@ -33,14 +33,15 @@ export class EditPostComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.editForm = this.fb.group({  // ✅ Initialize empty form to prevent undefined error
+    this.editForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       content: ['', Validators.required],
       is_public: ['', Validators.required],
       authenticated: ['', Validators.required],
       team: ['', Validators.required],
-      owner: ['', Validators.required]
+      owner: [{ value: '', disabled: true }, Validators.required] // 👈 Aquí se deshabilita correctamente
     });
+
   }
 
   ngOnInit(): void {
