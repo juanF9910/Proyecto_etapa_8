@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-post-create',
+  standalone: true,
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css'],
   imports: [CommonModule, ReactiveFormsModule]
@@ -33,9 +34,13 @@ export class PostCreateComponent {
       team: ['', Validators.required],
       owner: ['', Validators.required]
     });
+
+    console.log("Form initialized:", this.createForm);
   }
 
   onSubmit(): void {
+    console.log("submit buitton clicked");
+
     if (this.createForm.invalid) {
       this.showMessage('Por favor completa los campos correctamente.', 'error');
       return;
