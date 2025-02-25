@@ -36,7 +36,7 @@ export class EditPostComponent implements OnInit {
     this.editForm = this.fb.group({  // ✅ Initialize empty form to prevent undefined error
       title: ['', [Validators.required, Validators.maxLength(100)]],
       content: ['', Validators.required],
-      public: ['', Validators.required],
+      is_public: ['', Validators.required],
       authenticated: ['', Validators.required],
       team: ['', Validators.required],
       owner: ['', Validators.required]

@@ -28,7 +28,7 @@ export class PostCreateComponent {
     this.createForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       content: ['', Validators.required],
-      public: ['', Validators.required],
+      is_public: ['', Validators.required],
       authenticated: ['', Validators.required],
       team: ['', Validators.required],
       owner: ['', Validators.required]
@@ -41,9 +41,9 @@ export class PostCreateComponent {
       return;
     }
 
-    const { title, content, public: isPublic, authenticated, team, owner } = this.createForm.value;
+    const { title, content, is_public, authenticated, team, owner } = this.createForm.value;
 
-    this.blogPostService.createBlogPost(title, content, isPublic, authenticated, team, owner).subscribe({
+    this.blogPostService.createBlogPost(title, content, is_public, authenticated, team, owner).subscribe({
       next: () => {
         this.showMessage('Post creado exitosamente.', 'success');
         this.router.navigate(['/posts']);
