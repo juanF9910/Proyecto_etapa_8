@@ -44,7 +44,6 @@ export const routes: Routes = [
   {
     path: 'posts/:postId/edit',
     component: EditPostComponent
-      // canActivate: [EditPostGuard]
   },
   {
     path: 'comments/:postId',

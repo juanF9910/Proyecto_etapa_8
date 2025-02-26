@@ -48,7 +48,7 @@
           <option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</option>
         </select>
 
-        <select id="owner" class="form-control" formControlName="owner" [disabled]="true">
+        <select id="owner" class="form-control" formControlName="owner">
           <option *ngFor="let permission of permissions_owner" [value]="permission">{{ permission }}</option>
         </select>
       </div>

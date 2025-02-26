@@ -69,22 +69,20 @@ export class CommentsComponent implements OnInit {
     this.blogPostService.addComment(this.postId, this.commentContent).subscribe({
       next: (newComment) => {
         console.log('Comentario agregado:', newComment);
-
-        // ✅ Ensure `this.Comments` is an array before pushing
         if (!Array.isArray(this.Comments)) {
           this.Comments = [];
         }
-
         this.Comments.push(newComment);
         this.commentContent = ''; // ✅ Clear input field
         this.errorMessage = ''; // ✅ Clear any previous error
       },
       error: (err) => {
         console.error('Error adding comment:', err);
-        this.handleCommentError(err.message);
+        this.handleCommentError('No tienes permisos para comentar.');
       }
     });
   }
+
 
   handleCommentError(message: string) {
     this.errorMessage = message;

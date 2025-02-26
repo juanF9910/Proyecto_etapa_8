@@ -6,9 +6,11 @@ import { BlogPost } from '../../models/blog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {ReactiveFormsModule} from '@angular/forms'; // ✅ Import ReactiveFormsModule
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-edit-post',
+  standalone: true,
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css'],
   imports: [CommonModule, ReactiveFormsModule] // ✅ Add CommonModule
@@ -20,10 +22,9 @@ export class EditPostComponent implements OnInit {
   post!: BlogPost;
   isLoading = true;
 
-
-  permissions_public = ['None', 'Read Only'];
-  permissions = ['None', 'Read Only', 'Read and Edit'];
-  permissions_owner=['Read and Edit']
+  permissions_public = ['None', 'read only'];
+  permissions = ['none', 'read only', 'read and edit'];
+  permissions_owner=['read and edit']
 
 
   constructor(

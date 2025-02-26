@@ -14,7 +14,7 @@ import {DeleteComponent} from '../delete/delete.component';
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [CommonModule, LogoutComponent, LikesComponent, DeleteComponent],
+  imports: [CommonModule, LogoutComponent, LikesComponent],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
