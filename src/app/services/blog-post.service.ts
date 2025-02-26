@@ -68,12 +68,12 @@ export class BlogPostService {
   }
 
   editBlogPost(postId: number, updatedData: Partial<BlogPost>): Observable<BlogPost> {
-    return this.http.patch<BlogPost>(`${environment.apiUrl}/posts/${postId}/`, updatedData, { headers: this.getAuthHeaders() })
+    return this.http.patch<BlogPost>(`${environment.apiUrl}/posts/${postId}`, updatedData, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   deletePost(postId: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/posts/delete/${postId}`, { headers: this.getAuthHeaders() })
+    return this.http.delete<void>(`${environment.apiUrl}/posts/${postId}/delete/`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 

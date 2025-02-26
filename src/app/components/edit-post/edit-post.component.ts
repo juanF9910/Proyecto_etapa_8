@@ -7,13 +7,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {ReactiveFormsModule} from '@angular/forms'; // ✅ Import ReactiveFormsModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {RouterModule} from '@angular/router';
 @Component({
   selector: 'app-edit-post',
   standalone: true,
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css'],
-  imports: [CommonModule, ReactiveFormsModule] // ✅ Add CommonModule
+  imports: [CommonModule, ReactiveFormsModule,
+    RouterModule,
+  ] // ✅ Add CommonModule
 })
 
 export class EditPostComponent implements OnInit {
@@ -94,7 +96,7 @@ export class EditPostComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/posts', this.postId]);
+    this.router.navigate(['/posts']);
   }
 
   private showMessage(message: string, type: 'success' | 'error'): void {
