@@ -24,7 +24,7 @@ export class EditPostComponent implements OnInit {
   post!: BlogPost;
   isLoading = true;
 
-  permissions_public = ['None', 'read only'];
+  permissions_public = ['none', 'read only'];
   permissions = ['none', 'read only', 'read and edit'];
   permissions_owner=['read and edit']
 

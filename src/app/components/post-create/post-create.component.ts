@@ -5,15 +5,15 @@ import { BlogPostService } from '../../services/blog-post.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAnimations } from '@angular/platform-browser/animations';
+
+
 
 @Component({
   selector: 'app-post-create',
   standalone: true,
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, BrowserAnimationsModule]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class PostCreateComponent implements OnInit {
   createForm: FormGroup;
