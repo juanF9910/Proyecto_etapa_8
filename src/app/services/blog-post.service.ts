@@ -96,7 +96,5 @@ export class BlogPostService {
     return throwError(() => new Error(errorMessage));
   }
 
-  getUserName(): string {
-    return localStorage.getItem('username') || 'User'; // Adjust based on where you store it
-  }
+
 }

@@ -12,14 +12,12 @@
 </nav>
 
 
-
-
 <ng-template #noPosts>
   <p class="no-posts">No posts available.</p>
 </ng-template>
 
-<div *ngIf="blogPosts.length > 0; else noPosts">
-  <div *ngFor="let post of blogPosts" class="post"
+<div *ngIf="displayedPosts.length > 0; else noPosts">
+  <div *ngFor="let post of displayedPosts" class="post"
        [ngClass]="{ 'pulsate': activePostId === post.id }">
 
     <h2 class="post-title">{{ post.title }}</h2>
@@ -64,7 +62,15 @@
         ✏️
       </button>
 
-      <app-delete  *ngIf="isAuthenticated && editpermission(post.id)" [postId]="post.id" > </app-delete>
+      <app-delete *ngIf="isAuthenticated && editpermission(post.id)" [postId]="post.id"></app-delete>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
   </div>
 </div>
 

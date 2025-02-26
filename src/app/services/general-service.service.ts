@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { catchError, map, Observable, of, tap, throwError, BehaviorSubject } from 'rxjs';
 import { CookieService } from "ngx-cookie-service";
 import { Router } from '@angular/router';
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +14,24 @@ export class GeneralServiceService {
   private currentUserId: number | null = null;
   private refreshTimeout: any;
   authStatus = new BehaviorSubject<boolean>(this.isLoggedIn());  // Observable for auth state
-
+  private platformId= inject(PLATFORM_ID);
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
-    private router: Router
+    private router: Router,
   ) { }
 
   private getStoredRefreshToken(): string | null {
     return localStorage.getItem('refresh_token');
   }
 
-  private getStoredAccessToken(): string | null {
+  getStoredAccessToken(): string | null {
+    if (!isPlatformBrowser(this.platformId)) {
+      return null; // Evitar `localStorage` en SSR
+    }
     return localStorage.getItem('access_token');
   }
+
 
   private setSession(accessToken: string, refreshToken: string) {
     localStorage.setItem('access_token', accessToken);
@@ -150,11 +156,7 @@ export class GeneralServiceService {
   }
 
   isLoggedIn(): boolean {
-    const token = this.getStoredAccessToken();
-    if (!token) return false;
-
-    const decodedToken = this.parseJwt(token);
-    return decodedToken?.exp * 1000 > Date.now();
+    return isPlatformBrowser(this.platformId) && !!this.getStoredAccessToken();
   }
 
   getUserName(): string {

@@ -1,10 +1,16 @@
-<div class="likes-container" *ngIf="Like.length > 0; else noLikes">
+<div class="likes-container" *ngIf="displayedLikes.length > 0; else noLikes">
   <h2>Likes:</h2>
   <ul class="likes-list">
-    <li class="like-item" *ngFor="let like of Like">
+    <li class="like-item" *ngFor="let like of displayedLikes">
       {{ like.username }}
     </li>
   </ul>
+
+  <div class="pagination">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
 </div>
 
 <!-- No Likes Message -->

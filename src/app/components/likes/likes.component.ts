@@ -6,20 +6,24 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-likes',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './likes.component.html',
   styleUrl: './likes.component.css'
 })
-export class LikesComponent {
-  @Input() postId!:number;
+export class LikesComponent implements OnInit {
+  @Input() postId!: number;
   Like: BlogLikes[] = [];
-  loop: any;
+  displayedLikes: BlogLikes[] = [];
+  currentPage: number = 1;
+  pageSize: number = 15; // Número de likes por página
+  totalPages: number = 0;
 
   constructor(private blogPostService: BlogPostService) {}
 
   ngOnInit(): void {
     if (this.postId) {
-      this.getLikes(this.postId);  // Llama a getComments con el postId
+      this.getLikes(this.postId);
     } else {
       console.error('No se pudo obtener el postId de la URL.');
     }
@@ -27,15 +31,28 @@ export class LikesComponent {
 
   getLikes(postId: number): void {
     this.blogPostService.getLikes(postId).subscribe(
-      (like: BlogLikes[]) => {
-        console.log('Likes recibidos:', like);
-        this.Like = like.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-        // los likes se ordenan por fecha de creación descendente (los más recientes primero)
+      (likes: BlogLikes[]) => {
+        console.log('Likes recibidos:', likes);
+        this.Like = likes.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        this.totalPages = Math.ceil(this.Like.length / this.pageSize);
+        this.updateDisplayedLikes();
       },
       (error: any) => {
-        console.error('Error fetching comments:', error);
+        console.error('Error fetching likes:', error);
       }
     );
   }
 
+  updateDisplayedLikes(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedLikes = this.Like.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateDisplayedLikes();
+    }
+  }
 }
