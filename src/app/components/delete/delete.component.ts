@@ -30,6 +30,7 @@ export class DeleteComponent {
     this.showConfirmation = false;
     this.router.navigate(['/posts']);
   }
+
   deletePost() {
     this.showConfirmation = false; // Hide the popup immediately
 

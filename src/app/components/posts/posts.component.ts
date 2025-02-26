@@ -1,4 +1,3 @@
-import { levels } from './../../../../node_modules/log4js/types/log4js.d';
 import { Component, OnInit, Inject, Injector } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BlogPostService } from '../../services/blog-post.service';
@@ -7,10 +6,9 @@ import { Router } from '@angular/router';
 import { LogoutComponent } from '../logout/logout.component';
 import { PLATFORM_ID } from '@angular/core';
 import {LikesComponent} from '../likes/likes.component';
-import {PostCreateComponent } from '../post-create/post-create.component'
-import { catchError, map, Observable, of } from 'rxjs';
 import {DeleteComponent} from '../delete/delete.component';
-
+import {GeneralServiceService} from '../../services/general-service.service';
+import { catchError, map, Observable, of } from 'rxjs';
 @Component({
   selector: 'app-posts',
   standalone: true,
@@ -25,10 +23,11 @@ export class PostsComponent implements OnInit {
 showConfirmation: any;
 noPosts:boolean = false;
 confirmDelete(arg0: number) {
-throw new Error('Method not implemented.');
-}
+throw new Error('Method not implemented.'); }
+
   blogPosts: BlogPost[] = [];
   activePostId: number | null = null;
+  username: string = '';
   isAuthenticated: boolean = false;
   platformId!: Object;
   showLikes: { [key: number]: boolean } = {};
@@ -38,6 +37,7 @@ throw new Error('Method not implemented.');
 
   constructor(
     private blogPostService: BlogPostService,
+    private generalService: GeneralServiceService,
     private router: Router,
     private injector: Injector // Inject Injector here
   ) {}
@@ -47,6 +47,11 @@ throw new Error('Method not implemented.');
     this.getPosts();
     // this.checkAuthentication();  // Verificar autenticación al iniciar
     this.isAuthenticated = this.blogPostService.isAuthenticated();
+    if(this.isAuthenticated){
+      this.username = this.generalService.getUserName();
+      console.log('Usuario autenticado:', this.username);
+      console.log('Usuario autenticado:', this.isAuthenticated);
+    }
   }
 
   getPosts(): void {

@@ -1,4 +1,6 @@
 <nav class="nav-bar">
+  <div class="welcome-message" *ngIf="isAuthenticated">Welcome, {{ username }}</div>
+
   <div class="button-group">
     <button class="nav-btn" *ngIf="!isAuthenticated" (click)="navigateToRegister()">Register</button>
     <button class="nav-btn" *ngIf="!isAuthenticated" (click)="navigateToLogin()">Login</button>
@@ -8,6 +10,9 @@
     <app-logout *ngIf="isAuthenticated"></app-logout>
   </div>
 </nav>
+
+
+
 
 <ng-template #noPosts>
   <p class="no-posts">No posts available.</p>
@@ -55,11 +60,11 @@
         💬
       </button>
 
-      <button class="edit-button" *ngIf="editpermission(post.id)" (click)="navigateToEditPost(post.id); $event.stopPropagation();">
+      <button class="edit-button" *ngIf="isAuthenticated && editpermission(post.id)" (click)="navigateToEditPost(post.id); $event.stopPropagation();">
         ✏️
       </button>
 
-      <app-delete  *ngIf="editpermission(post.id)" [postId]="post.id" > </app-delete>
+      <app-delete  *ngIf="isAuthenticated && editpermission(post.id)" [postId]="post.id" > </app-delete>
   </div>
 </div>
 

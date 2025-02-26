@@ -17,6 +17,13 @@
   gap: 10px;
 }
 
+.welcome-message {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #6e1fb4;
+  margin-right: auto;
+}
+
 .nav-btn {
   background: linear-gradient(135deg, #4CAF50, #2196F3, #9C27B0);
   color: white;
@@ -218,3 +225,34 @@
 .comment-button:hover {
   transform: scale(1.2);
 }
+
+.confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border-radius: 8px;
+}
+
+.confirm-delete {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.cancel-delete {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  cursor: pointer;
+}
+

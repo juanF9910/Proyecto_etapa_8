@@ -1,1 +1,14 @@
-<button class="cute-button" (click)="logout()">Logout</button>
+<button class="cute-button" (click)="showLogoutPopup = true">Logout</button>
+
+<!-- Logout Confirmation Popup -->
+<div class="popup-overlay" *ngIf="showLogoutPopup">
+  <div class="popup">
+    <p>¿Quieres salir del blog?</p>
+    <button class="confirm-btn" (click)="confirmLogout()">Aceptar</button>
+    <button class="cancel-btn" (click)="showLogoutPopup = false">Cancelar</button>
+  </div>
+</div>
+
+<div *ngIf="logoutMessage" class="logout-message-container">
+  {{ logoutMessage }}
+</div>
