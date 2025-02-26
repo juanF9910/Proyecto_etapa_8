@@ -1,51 +1,43 @@
 .likes-container {
-  background: linear-gradient(135deg, #a8c0ff, #d1b3ff, #a0e6a0); /* Blue -> Purple -> Green */
+  background: linear-gradient(135deg, #7294ea, #a67ae8, #62a162); /* Azul -> Morado -> Verde */
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   max-width: 400px;
   margin: 20px auto;
   text-align: center;
-  color: #333; /* Darker text for contrast */
+  color: #fcf9f9;
 }
 
-.likes-container h3 {
+.likes-container h2 {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
+
 }
 
 .likes-list {
-  list-style: none;
-  padding: 0;
+  list-style-type: disc; /* Usa viñetas (puntos) */
+  padding: 10px 20px;
   margin: 0;
+  background: white; /* Fondo blanco para toda la lista */
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left; /* Alinea los nombres a la izquierda */
 }
 
 .like-item {
-  background: white;
-  color: #333;
-  padding: 10px;
+  display: list-item; /* Mantiene el formato de viñeta */
   margin: 5px 0;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease-in-out, background 0.2s;
 }
 
-.like-item:hover {
-  transform: scale(1.05);
-  background: #b3e5fc; /* Light blue on hover */
-  color: black;
-}
-
-/* Styling the 'No Likes' message */
 .no-likes-container {
-  background: linear-gradient(135deg, #e0f7fa, #e1bee7, #c8e6c9); /* Light Blue -> Light Purple -> Light Green */
+  background: linear-gradient(135deg, #e0f7fa, #e1bee7, #c8e6c9);
   border: 1px solid #ccc;
   padding: 15px;
   border-radius: 10px;

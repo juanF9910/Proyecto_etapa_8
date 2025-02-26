@@ -1,14 +1,13 @@
-<!-- Botón de eliminar -->
-
 <div>
   <button class="delete-button" (click)="confirmDelete()">
     🗑️
   </button>
-
 </div>
 
+<!-- Overlay for background dimming -->
+<div class="overlay" *ngIf="showConfirmation"></div>
 
-<!-- Ventana emergente de confirmación -->
+<!-- Centered Confirmation Popup -->
 <div class="confirmation-popup" *ngIf="showConfirmation">
   <p>Are you sure you want to delete this post?</p>
   <button class="confirm-delete" (click)="deletePost()">Delete</button>

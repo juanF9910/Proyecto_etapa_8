@@ -15,25 +15,38 @@ export class DeleteComponent {
 
   showConfirmation = false;
 
-  constructor(private postService: BlogPostService, private router: Router) {}
+  constructor(
+    private postService: BlogPostService,
+    private router: Router) {
+
+    }
 
   confirmDelete() {
     this.showConfirmation = true;
+    this.router.navigate(['/posts']);
   }
 
   cancelDelete() {
     this.showConfirmation = false;
+    this.router.navigate(['/posts']);
   }
-
   deletePost() {
+    this.showConfirmation = false; // Hide the popup immediately
+
     this.postService.deletePost(this.postId).subscribe({
       next: () => {
-        alert('Post deleted successfully');
-        this.router.navigate(['/posts']);
+        console.log("Post deleted successfully");
+
+        // Refresh the current view or navigate to another page
+        this.router.navigate(['/posts']).then(() => {
+          window.location.reload(); // Ensures post list updates
+        });
       },
       error: (error) => {
-        alert('Error deleting post: ' + error.message);
+        console.error("Error deleting post:", error);
       }
     });
   }
+
+
 }

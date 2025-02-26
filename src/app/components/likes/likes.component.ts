@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 export class LikesComponent {
   @Input() postId!:number;
   Like: BlogLikes[] = [];
+  loop: any;
 
   constructor(private blogPostService: BlogPostService) {}
 

@@ -2,7 +2,7 @@ import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { BlogPost, BlogComment, BlogLikes } from '../models/blog';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -73,9 +73,16 @@ export class BlogPostService {
   }
 
   deletePost(postId: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/posts/${postId}/delete/`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+    const url = `${environment.apiUrl}/posts/${postId}`;
+    return this.http.delete<void>(url, { headers: this.getAuthHeaders() }).pipe(
+      tap(() => console.log(`Post deleted successfully: ID ${postId}`)),
+      catchError((error) => {
+        console.error(`Failed to delete post ID ${postId}:`, error);
+        return throwError(() => new Error('Error deleting the post. Please try again.'));
+      })
+    );
   }
+
 
   isAuthenticated(): boolean {
     return isPlatformBrowser(this.platformId) && !!localStorage.getItem('access_token');
