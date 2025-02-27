@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class PostCreateComponent implements OnInit {
   createForm: FormGroup;
 
+
   permissions_public = ['none', 'read only'];
   permissions = ['none', 'read only', 'read and edit'];
   permissions_owner = ['read and edit'];

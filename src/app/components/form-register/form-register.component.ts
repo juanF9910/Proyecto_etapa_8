@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { GeneralServiceService } from '../../services/general-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RequestStatus } from './../../models/request-status.model';
+
 @Component({
   selector: 'app-form-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], // Import both modules here
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './form-register.component.html',
   styleUrls: ['./form-register.component.css'],
-  providers: [GeneralServiceService] // Add the service here
+  providers: [GeneralServiceService]
 })
 
 export class FormRegisterComponent implements OnInit {
@@ -18,6 +19,9 @@ export class FormRegisterComponent implements OnInit {
   status: RequestStatus = 'init';
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+  showSuccessPopup: boolean = false;  // Controla la visibilidad del popup
+  snackBar: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private generalService: GeneralServiceService,
@@ -49,26 +53,29 @@ export class FormRegisterComponent implements OnInit {
     return this.form.get('confirm_password') as FormControl;
   }
 
-  register(){
-    if (this.form.valid){
-      this.status='loading';
-      const{username, password, confirm_password}=this.form.getRawValue();
+  register() {
+    if (this.form.valid) {
+      this.status = 'loading';
+      const { username, password, confirm_password } = this.form.getRawValue();
       this.generalService.register(username, password, confirm_password)
-      .subscribe({
-        next:()=>{
-          this.status='success';
-          this.router.navigate(['/login']);
-        }, error:()=>{
-          this.status='error';
-          console.log('Error');
-        }
-      }
-      );
-    }else{
+        .subscribe({
+          next: () => {
+            this.status = 'success';
+            this.showSuccessPopup = true; // Mostrar el popup
+            setTimeout(() => {
+              this.showSuccessPopup = false;
+              this.router.navigate(['/login']);
+            }, 2000); // Ocultar popup después de 2 segundos
+          },
+          error: () => {
+            this.status = 'error';
+            console.log('Error');
+          }
+        });
+    } else {
       this.form.markAllAsTouched();
     }
   }
-
 
   navigateToLogin(): void {
     this.router.navigate(['/login']);
@@ -84,5 +91,12 @@ export class FormRegisterComponent implements OnInit {
 
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  private showMessage(message: string, type: 'success' | 'error'): void {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
+      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error'
+    });
   }
 }
