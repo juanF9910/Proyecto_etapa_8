@@ -1,12 +1,23 @@
 <div class="post-container">
   <h2 class="post-title">{{ post?.title }}</h2>
   <p class="post-excerpt">{{ post?.content }}</p>
-  <small class="post-meta">Autor: {{ post?.username }} | {{ post?.created_at | date:'short' }}</small>
+  <small class="post-meta">
+    Autor: <strong>{{ post?.username }}</strong> | {{ post?.created_at | date:'short' }}
+  </small>
 
   <div class="divider"></div> <!-- Línea divisoria elegante -->
-  <span class="likes-text">
-    {{ post?.likes_count }} {{ post?.likes_count === 1 ? 'Like' : 'Likes' }}
-  </span>
+
+  <div class="post-actions">
+    <span class="likes-text" *ngIf="post?.likes_count !== undefined">
+      ❤️ {{ post?.likes_count }} {{ post?.likes_count === 1 ? 'Like' : 'Likes' }}
+    </span>
+
+    <button class="icon-button edit-button" *ngIf="canEdit && post"
+            (click)="navigateToEditPost(post.id); $event.stopPropagation();"
+            title="Edit Post">
+      ✏️
+    </button>
+  </div>
 
   <app-comments></app-comments>
 </div>

@@ -317,3 +317,38 @@
   background-color: #bdc3c7;
   cursor: not-allowed;
 }
+
+.post-buttons {
+  display: flex;
+  gap: 8px; /* Space between buttons */
+  align-items: center;
+}
+
+
+
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.icon-button:hover {
+  transform: scale(1.2);
+}
+
+.delete-button {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  transform: scale(1.2);
+}

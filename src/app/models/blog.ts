@@ -31,3 +31,13 @@ export interface BlogLikes{
   username: string;
   created_at: string;
 }
+
+
+export interface BlogLikesResponse {
+  current_page: number;
+  total_pages: number;
+  total_count: number;
+  next_page_url: string | null;
+  previous_page_url: string | null;
+  results: BlogLikes[];
+}

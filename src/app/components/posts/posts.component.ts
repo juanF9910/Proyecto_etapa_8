@@ -27,6 +27,8 @@ export class PostsComponent implements OnInit {
   showLikes: { [key: number]: boolean } = {};
   authorizationError: boolean = false;
   platformId!: Object;
+  editPermissions: { [postId: number]: boolean } = {}; // ✅ Store edit permissions per post
+
 
   // Variables de paginación
   currentPage: number = 1;
@@ -55,12 +57,43 @@ export class PostsComponent implements OnInit {
         this.blogPosts = posts.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
         this.totalPages = Math.ceil(this.blogPosts.length / this.pageSize);
         this.updateDisplayedPosts();
+
+        this.blogPosts.forEach(post => {
+          this.checkEditPermission(post.id);
+        });
       },
       (error) => {
         console.error('Error fetching blog posts:', error);
       }
     );
   }
+
+  checkEditPermission(postId: number): void {
+    this.editpermission(postId).subscribe(
+      (hasPermission) => {
+        this.editPermissions[postId] = hasPermission;
+      },
+      (error) => {
+        console.error(`Error checking edit permission for post ${postId}:`, error);
+        this.editPermissions[postId] = false;
+      }
+    );
+  }
+
+  editpermission(postId: number): Observable<boolean> {
+    return this.blogPostService.editBlogPost(postId, {}).pipe(
+      map(() => true),
+      catchError(error => {
+        console.error('Error verifying permissions:', error);
+        return of(false);
+      })
+    );
+  }
+
+  navigateToEditPost(postId: number): void {
+    this.router.navigate([`/posts/${postId}/edit`]);
+  }
+
 
   updateDisplayedPosts(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
@@ -87,9 +120,9 @@ export class PostsComponent implements OnInit {
     this.router.navigate([`/posts/${postId}`]);
   }
 
-  navigateToEditPost(postId: number): void {
-    this.router.navigate([`/posts/${postId}/edit`]);
-  }
+  // navigateToEditPost(postId: number): void {
+  //   this.router.navigate([`/posts/${postId}/edit`]);
+  // }
 
   navigateToCreatePost(): void {
     this.router.navigate(['/posts/create/']);
@@ -109,15 +142,27 @@ export class PostsComponent implements OnInit {
     });
   }
 
-  editpermission(postId: number): Observable<boolean> {
-    return this.blogPostService.editBlogPost(postId, {}).pipe(
-      map(() => true),
-      catchError(error => {
-        console.error('Error al verificar permisos:', error);
-        this.router.navigate(['/posts']);
-        return of(false);
-      })
-    );
-  }
+
+  // editpermission(postId: number): Observable<boolean> {
+  //   return this.blogPostService.editBlogPost(postId, {}).pipe(
+  //     map(() => true),  // Si el backend no lanza error, retorna true
+  //     catchError(error => {
+  //       console.error('Error al verificar permisos:', error);
+  //       return of(false); // En caso de error, retorna false
+  //     })
+  //   );
+  // }
+
+  // checkEditPermission(): void {
+  //   this.editpermission(this.postId).subscribe(
+  //     (hasPermission) => {
+  //       this.canEdit = hasPermission;
+  //     },
+  //     (error) => {
+  //       console.error('Error verificando permisos de edición:', error);
+  //       this.canEdit = false;
+  //     }
+  //   );
+  // }
 
 }

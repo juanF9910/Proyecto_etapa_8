@@ -6,6 +6,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  text-align: center;
 }
 
 /* Título del post */
@@ -43,22 +44,57 @@
   border-radius: 5px;
 }
 
+/* Sección de botones debajo del post */
+.post-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
 /* Contador de likes */
 .likes-text {
-  display: inline-block;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
-  color: #4A90E2; /* Azul pastel */
-  background: rgba(74, 144, 226, 0.1); /* Azul claro con transparencia */
-  padding: 8px 15px;
+  color: #4A90E2;
+  background: rgba(74, 144, 226, 0.1);
+  padding: 8px 12px;
   border-radius: 20px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out, background 0.3s;
   cursor: pointer;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.likes-text:hover {
+  background: rgba(74, 144, 226, 0.2);
+  transform: scale(1.1);
+}
 
-.post-container {
-  text-align: center;
+/* Estilos para el botón de editar */
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button:hover {
+  transform: scale(1.2);
+}
+
+/* Asegurar que el botón de edición tenga una apariencia consistente */
+.edit-button {
+  color: #4A90E2;
+}
+
+.edit-button:hover {
+  color: #357ABD;
 }

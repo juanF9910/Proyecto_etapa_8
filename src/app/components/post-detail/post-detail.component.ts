@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { BlogPostService } from '../../services/blog-post.service';
 import { BlogPost } from '../../models/blog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, map, Observable, of } from 'rxjs';
+
 @Component({
   selector: 'app-post-detail',
   imports: [CommonModule, CommentsComponent],
@@ -13,6 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PostDetailComponent {
   post: BlogPost | null = null;
   postId: number = 0;
+  isAuthenticated: boolean = false;
+  canEdit: boolean = false; // ✅ Nueva variable para almacenar el permiso de edición
 
   constructor(private blogPostService: BlogPostService,
     private router: Router,
@@ -20,7 +24,6 @@ export class PostDetailComponent {
   ) {}
 
   ngOnInit(): void {
-
     this.route.paramMap.subscribe(params => {
       const id = params.get('postId');
       if (!id || isNaN(Number(id))) {
@@ -29,14 +32,17 @@ export class PostDetailComponent {
         return;
       }
 
+      this.isAuthenticated = this.blogPostService.isAuthenticated();
       this.postId = Number(id);
+
+      // ✅ Verificar el permiso de edición cuando se carga el post
+      this.checkEditPermission();
     });
 
     this.getPostDetail(this.postId);
   }
 
-  getPostDetail(postId:number): void {
-    //this.postId = this.blogPostService.getPostIdFromUrl();
+  getPostDetail(postId: number): void {
     if (postId !== null) {
       this.blogPostService.getDetailPost(postId).subscribe((post: BlogPost) => {
         this.post = post;
@@ -44,5 +50,31 @@ export class PostDetailComponent {
     } else {
       console.error('Post ID is null');
     }
+  }
+
+  checkEditPermission(): void {
+    this.editpermission(this.postId).subscribe(
+      (hasPermission) => {
+        this.canEdit = hasPermission;
+      },
+      (error) => {
+        console.error('Error verificando permisos de edición:', error);
+        this.canEdit = false;
+      }
+    );
+  }
+
+  editpermission(postId: number): Observable<boolean> {
+    return this.blogPostService.editBlogPost(postId, {}).pipe(
+      map(() => true),  // Si el backend no lanza error, retorna true
+      catchError(error => {
+        console.error('Error al verificar permisos:', error);
+        return of(false); // En caso de error, retorna false
+      })
+    );
+  }
+
+  navigateToEditPost(postId: number): void {
+    this.router.navigate([`/posts/${postId}/edit`]);
   }
 }

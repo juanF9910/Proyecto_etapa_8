@@ -82,7 +82,7 @@ export class FormRegisterComponent implements OnInit {
   }
 
   clearForm(): void {
-    this.form.reset();
+    this.router.navigate(['/posts']);
   }
 
   togglePasswordVisibility() {

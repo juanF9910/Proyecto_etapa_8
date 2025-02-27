@@ -69,13 +69,11 @@ export class FormLoginComponent implements OnInit {
 
   clearForm() {
     this.form.reset();
+    this.router.navigate(['/posts']);
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-
-
-  // Add a method to check if the user is already logged in
 
 }
