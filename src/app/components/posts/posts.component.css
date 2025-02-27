@@ -91,9 +91,10 @@
 }
 
 /* Likes Popup */
-.likes-container {
+/* .likes-container {
   position: relative;
   cursor: pointer;
+  display: inline-block
 }
 
 .likes-popup {
@@ -108,7 +109,41 @@
   text-align: center;
   z-index: 10;
   font-weight: bold;
+} */
+
+
+/* Likes Container */
+.likes-container {
+  position: relative;
+  display: inline-block;
 }
+
+/* Likes Popup */
+.likes-popup {
+  position: absolute;
+  top: 100%; /* Positions it right below the likes count */
+  left: 0;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 150px;
+  text-align: center;
+  z-index: 10;
+  font-weight: bold;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  pointer-events: none; /* Prevents accidental hover loss */
+}
+
+/* Ensure the popup stays visible when hovering */
+.likes-container:hover .likes-popup {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Allow interaction with the popup */
+}
+
 
 /* No Posts Message */
 .no-posts {

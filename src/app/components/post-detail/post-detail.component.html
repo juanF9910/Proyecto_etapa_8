@@ -4,6 +4,9 @@
   <small class="post-meta">Autor: {{ post?.username }} | {{ post?.created_at | date:'short' }}</small>
 
   <div class="divider"></div> <!-- Línea divisoria elegante -->
+  <span class="likes-text">
+    {{ post?.likes_count }} {{ post?.likes_count === 1 ? 'Like' : 'Likes' }}
+  </span>
 
   <app-comments></app-comments>
 </div>

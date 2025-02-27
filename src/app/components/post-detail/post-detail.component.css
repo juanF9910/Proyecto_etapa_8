@@ -42,3 +42,23 @@
   margin: 20px auto;
   border-radius: 5px;
 }
+
+/* Contador de likes */
+.likes-text {
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4A90E2; /* Azul pastel */
+  background: rgba(74, 144, 226, 0.1); /* Azul claro con transparencia */
+  padding: 8px 15px;
+  border-radius: 20px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, background 0.3s;
+  cursor: pointer;
+  text-align: center;
+}
+
+
+.post-container {
+  text-align: center;
+}

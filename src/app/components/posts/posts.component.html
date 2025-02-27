@@ -32,21 +32,28 @@
     <small>By: {{ post.username }} | {{ post.created_at | date: 'short' }}</small>
     <p class="post-equipo">Equipo: {{ post.equipo }}</p>
 
+
     <div class="post-stats">
       <div class="likes-container"
            (mouseenter)="showLikes[post.id] = true"
            (mouseleave)="showLikes[post.id] = false">
-        <span class="likes-text"> {{ post.likes_count }} Likes</span>
+           <span class="likes-text">
+            {{ post?.likes_count }} {{ post?.likes_count === 1 ? 'Like' : 'Likes' }}
+          </span>
+
+        <!-- Keep the likes popup inside the same container to prevent the gap issue -->
         <div *ngIf="showLikes[post.id]" class="likes-popup">
           <app-likes [postId]="post.id"></app-likes>
         </div>
       </div>
 
       <span class="comments"
-            (click)="navigateToPost(post.id); $event.stopPropagation();">
-         {{ post.comments_count }} Comments
-      </span>
+      (click)="navigateToPost(post.id); $event.stopPropagation();">
+      {{ post.comments_count }} {{ post.comments_count === 1 ? 'Comment' : 'Comments' }}
+</span>
+
     </div>
+
 
     <!-- Buttons Section -->
     <div class="post-buttons">
