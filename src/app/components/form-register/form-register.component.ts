@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { GeneralServiceService } from '../../services/general-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RequestStatus } from './../../models/request-status.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form-register',
@@ -13,20 +14,18 @@ import { RequestStatus } from './../../models/request-status.model';
   styleUrls: ['./form-register.component.css'],
   providers: [GeneralServiceService]
 })
-
 export class FormRegisterComponent implements OnInit {
   form!: FormGroup;
   status: RequestStatus = 'init';
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
-  showSuccessPopup: boolean = false;  // Controla la visibilidad del popup
-  snackBar: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private generalService: GeneralServiceService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     this.buildForm();
   }
@@ -61,15 +60,14 @@ export class FormRegisterComponent implements OnInit {
         .subscribe({
           next: () => {
             this.status = 'success';
-            this.showSuccessPopup = true; // Mostrar el popup
+            this.showMessage('Registro exitoso. Redirigiendo...', 'success');
             setTimeout(() => {
-              this.showSuccessPopup = false;
               this.router.navigate(['/login']);
-            }, 2000); // Ocultar popup después de 2 segundos
+            }, 2000); // Redirigir después de 2 segundos
           },
-          error: () => {
+          error: (err) => {
             this.status = 'error';
-            console.log('Error');
+            this.showMessage('Error en el registro: ' + err.message, 'error');
           }
         });
     } else {
@@ -77,26 +75,23 @@ export class FormRegisterComponent implements OnInit {
     }
   }
 
-  navigateToLogin(): void {
+  private showMessage(message: string, type: 'success' | 'error'): void {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 2000,
+      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error'
+    });
+  }
+
+  navigateToLogin() {
     this.router.navigate(['/login']);
-  }
-
-  clearForm(): void {
-    this.router.navigate(['/posts']);
-  }
-
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
   }
 
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  private showMessage(message: string, type: 'success' | 'error'): void {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 3000,
-      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error'
-    });
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
+
 }
