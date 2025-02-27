@@ -107,4 +107,8 @@ export class CommentsComponent implements OnInit {
   clearCommentInput(): void {
     this.commentContent = '';
   }
+
+  navigateToLogin(): void {
+    this.router.navigate(['/login']);
+  }
 }

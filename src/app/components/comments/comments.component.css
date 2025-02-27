@@ -181,3 +181,26 @@
   background-color: #b32d3a;
   transform: scale(1.05);
 }
+
+.no-auth-message {
+  background-color: #fffae6;
+  border: 1px solid #ffd700;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #d68c00;
+  margin-top: 15px;
+}
+
+.login-link {
+  color: #d68c00;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+  color: #ff9900;
+}

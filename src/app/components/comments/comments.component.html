@@ -1,32 +1,34 @@
+<!-- Sección de comentarios, visible para todos -->
+<div class="comments-section" *ngIf="displayedComments.length > 0; else noComments">
+  <h3 class="comments-title">Comentarios:</h3>
+  <ul class="comments-list">
+    <li class="comment" *ngFor="let comment of displayedComments">
+      <p class="comment-content">{{ comment.content }}</p>
+      <small class="comment-author">
+        Escrito por: {{ comment.username }} | {{ comment?.created_at | date:'short' }}
+      </small>
+    </li>
+  </ul>
+
+  <!-- Paginación -->
+  <div class="pagination">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
+  </div>
+</div>
+
+<ng-template #noComments>
+  <p class="no-comments">No hay comentarios para este post.</p>
+</ng-template>
+
+<!-- Mensaje de error -->
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<!-- Sección de añadir comentario, solo para usuarios autenticados -->
 <div *ngIf="isAuthenticated; else noAuth">
-  <div class="comments-section" *ngIf="displayedComments.length > 0; else noComments">
-    <h3 class="comments-title">Comentarios:</h3>
-    <ul class="comments-list">
-      <li class="comment" *ngFor="let comment of displayedComments">
-        <p class="comment-content">{{ comment.content }}</p>
-        <small class="comment-author">
-          Escrito por: {{ comment.username }} | {{ comment?.created_at | date:'short' }}
-        </small>
-      </li>
-    </ul>
-
-    <!-- Paginación -->
-    <div class="pagination">
-      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
-      <span>Página {{ currentPage }} de {{ totalPages }}</span>
-      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
-    </div>
-  </div>
-
-  <ng-template #noComments>
-    <p class="no-comments">No hay comentarios para este post.</p>
-  </ng-template>
-
-  <!-- Mensaje de error -->
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
-  </div>
-
   <div class="comment-box">
     <h4>Añadir un comentario</h4>
     <textarea [(ngModel)]="commentContent" placeholder="Escribe tu comentario aquí..." class="comment-input"></textarea>
@@ -42,6 +44,9 @@
   </div>
 </div>
 
+<!-- Mensaje de recomendación de inicio de sesión con estilo -->
 <ng-template #noAuth>
-  <p class="no-auth-message">Por favor, inicia sesión para ver y añadir comentarios.</p>
+  <p class="no-auth-message">
+    🔒 Para añadir un comentario, <a (click)="navigateToLogin()" class="login-link">inicia sesión</a>.
+  </p>
 </ng-template>
