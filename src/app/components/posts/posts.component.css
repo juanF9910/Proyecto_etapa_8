@@ -121,8 +121,9 @@
 /* Likes Popup */
 .likes-popup {
   position: absolute;
-  top: 100%; /* Positions it right below the likes count */
-  left: 0;
+  top: 50%; /* Centra verticalmente respecto al botón */
+  left: 100%; /* Coloca el popup a la derecha del botón */
+  transform: translateY(-50%); /* Ajusta la posición para que esté alineado */
   background: rgba(255, 255, 255, 0.95);
   padding: 10px;
   border-radius: 8px;
@@ -134,7 +135,8 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  pointer-events: none; /* Prevents accidental hover loss */
+  pointer-events: none; /* Evita que desaparezca accidentalmente */
+  white-space: nowrap; /* Evita que el texto se corte en varias líneas */
 }
 
 /* Ensure the popup stays visible when hovering */

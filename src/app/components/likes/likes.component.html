@@ -1,21 +1,29 @@
 <div class="likes-container" *ngIf="displayedLikes.length > 0; else noLikes">
-  <h2>Likes:</h2>
+  <h2>❤️</h2>
+
   <ul class="likes-list">
     <li class="like-item" *ngFor="let like of displayedLikes">
-      {{ like.username }}
+      <span class="user-avatar">👤</span> {{ like.username }}
     </li>
   </ul>
 
-  <div class="pagination">
-    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  <!-- Paginación solo si hay más de una página -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" class="pagination-button">
+      ⬅️ Anterior
+    </button>
+
+    <span class="pagination-info">Página {{ currentPage }} de {{ totalPages }}</span>
+
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="pagination-button">
+      Siguiente ➡️
+    </button>
   </div>
 </div>
 
 <!-- No Likes Message -->
 <ng-template #noLikes>
   <div class="no-likes-container">
-    <p class="no-likes-message">No hay likes para este post.</p>
+    <p class="no-likes-message">😔 Aún no hay likes en este post.</p>
   </div>
 </ng-template>

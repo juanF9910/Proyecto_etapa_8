@@ -1,12 +1,12 @@
 .likes-container {
-  background: linear-gradient(135deg, #7294ea, #a67ae8, #62a162); /* Azul -> Morado -> Verde */
+  background: linear-gradient(135deg, #90beeb, #dfdce3, #8dc2e3); /* Azul -> Morado -> Verde */
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   max-width: 400px;
   margin: 20px auto;
   text-align: center;
-  color: #fcf9f9;
+  color: #1c22d9;
 }
 
 .likes-container h2 {
@@ -26,7 +26,7 @@
   border-radius: 10px;
   font-size: 18px;
   font-weight: 500;
-  color: #333;
+  color: #baac48;
   box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
   text-align: left; /* Alinea los nombres a la izquierda */
 }
@@ -37,7 +37,7 @@
 }
 
 .no-likes-container {
-  background: linear-gradient(135deg, #e0f7fa, #e1bee7, #c8e6c9);
+  background: linear-gradient(135deg, #ddf4f7, #c4e9ed, #acd9f5);
   border: 1px solid #ccc;
   padding: 15px;
   border-radius: 10px;
@@ -50,5 +50,5 @@
 .no-likes-message {
   font-size: 18px;
   font-style: italic;
-  color: #555;
+  color: #181818;
 }
