@@ -1,7 +1,8 @@
 <!-- Sección de comentarios, visible para todos -->
-<div class="comments-section" *ngIf="displayedComments.length > 0; else noComments">
+<div class="comments-section">
   <h3 class="comments-title">Comentarios:</h3>
-  <ul class="comments-list">
+
+  <ul class="comments-list" *ngIf="displayedComments.length > 0; else noComments">
     <li class="comment" *ngFor="let comment of displayedComments">
       <p class="comment-content">{{ comment.content }}</p>
       <small class="comment-author">
@@ -10,16 +11,21 @@
     </li>
   </ul>
 
-  <!-- Paginación -->
-  <div class="pagination">
-    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
-    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
-  </div>
+  <!-- Paginación (siempre visible) -->
+<!-- Paginación (siempre visible) -->
+<div class="pagination">
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">⬅️ Anterior</button>
+
+  <span>{{ getPaginationInfo() }}</span>
+
+  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente ➡️</button>
 </div>
 
+</div>
+
+<!-- No hay comentarios -->
 <ng-template #noComments>
-  <p class="no-comments">No hay comentarios para este post.</p>
+  <p class="no-comments">😔 No hay comentarios para este post.</p>
 </ng-template>
 
 <!-- Mensaje de error -->
@@ -34,7 +40,7 @@
     <textarea [(ngModel)]="commentContent" placeholder="Escribe tu comentario aquí..." class="comment-input"></textarea>
 
     <div class="button-group">
-      <button (click)="addCommentToPost()" [disabled]="!commentContent" class="submit-btn">
+      <button (click)="addCommentToPost()" [disabled]="!commentContent.trim()" class="submit-btn">
         Enviar
       </button>
       <button (click)="clearCommentInput()" class="cancel-btn">

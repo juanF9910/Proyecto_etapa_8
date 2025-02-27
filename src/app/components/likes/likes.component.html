@@ -7,13 +7,15 @@
     </li>
   </ul>
 
-  <!-- Paginación solo si hay más de una página -->
-  <div class="pagination" *ngIf="totalPages > 1">
+  <!-- Always show pagination -->
+  <div class="pagination">
     <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" class="pagination-button">
       ⬅️ Anterior
     </button>
 
-    <span class="pagination-info">Página {{ currentPage }} de {{ totalPages }}</span>
+    <div class="pagination-info">
+      {{ getPaginationInfo() }}
+    </div>
 
     <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="pagination-button">
       Siguiente ➡️

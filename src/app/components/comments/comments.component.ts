@@ -111,4 +111,12 @@ export class CommentsComponent implements OnInit {
   navigateToLogin(): void {
     this.router.navigate(['/login']);
   }
+
+  getPaginationInfo(): string {
+    if (this.Comments.length === 0) return 'No hay comentarios aún.';
+    const start = (this.currentPage - 1) * this.commentsPerPage + 1;
+    const end = Math.min(this.currentPage * this.commentsPerPage, this.Comments.length);
+    return `${start}-${end} de ${this.Comments.length}`;
+  }
+
 }

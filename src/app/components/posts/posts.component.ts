@@ -120,9 +120,6 @@ export class PostsComponent implements OnInit {
     this.router.navigate([`/posts/${postId}`]);
   }
 
-  // navigateToEditPost(postId: number): void {
-  //   this.router.navigate([`/posts/${postId}/edit`]);
-  // }
 
   navigateToCreatePost(): void {
     this.router.navigate(['/posts/create/']);
@@ -143,26 +140,5 @@ export class PostsComponent implements OnInit {
   }
 
 
-  // editpermission(postId: number): Observable<boolean> {
-  //   return this.blogPostService.editBlogPost(postId, {}).pipe(
-  //     map(() => true),  // Si el backend no lanza error, retorna true
-  //     catchError(error => {
-  //       console.error('Error al verificar permisos:', error);
-  //       return of(false); // En caso de error, retorna false
-  //     })
-  //   );
-  // }
-
-  // checkEditPermission(): void {
-  //   this.editpermission(this.postId).subscribe(
-  //     (hasPermission) => {
-  //       this.canEdit = hasPermission;
-  //     },
-  //     (error) => {
-  //       console.error('Error verificando permisos de edición:', error);
-  //       this.canEdit = false;
-  //     }
-  //   );
-  // }
 
 }
