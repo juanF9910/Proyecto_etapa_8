@@ -75,16 +75,17 @@
       <app-delete *ngIf="editPermissions[post.id]" [postId]="post.id" class="delete-button"></app-delete>
     </div>
 
-
-
   </div>
 
   <!-- Pagination Controls -->
   <div class="pagination">
-    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">⬅️ Anterior</button>
+
+    <span>{{ getPaginationInfo() }}</span>
+
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente ➡️</button>
   </div>
+
 </div>
 
 <ng-template #noPosts>

@@ -29,7 +29,6 @@ export class PostsComponent implements OnInit {
   platformId!: Object;
   editPermissions: { [postId: number]: boolean } = {}; // ✅ Store edit permissions per post
 
-
   // Variables de paginación
   currentPage: number = 1;
   pageSize: number = 10; // 10 posts por página
@@ -106,6 +105,14 @@ export class PostsComponent implements OnInit {
       this.currentPage = page;
       this.updateDisplayedPosts();
     }
+  }
+
+
+  getPaginationInfo(): string {
+    if (this.blogPosts.length === 0) return 'No hay posts aún.';
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.blogPosts.length);
+    return `${start}-${end} de ${this.blogPosts.length}`;
   }
 
   navigateToRegister(): void {
