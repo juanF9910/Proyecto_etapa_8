@@ -15,6 +15,7 @@ export class LikesComponent implements OnInit {
   @Input() postId!: number;
   Like: BlogLikes[] = [];
   displayedLikes: BlogLikes[] = [];
+
   currentPage: number = 1;
   pageSize: number = 15; // Número de likes por página
   totalPages: number = 0;
