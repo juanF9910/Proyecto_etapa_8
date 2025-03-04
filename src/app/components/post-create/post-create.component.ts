@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-post-create',
   standalone: true,

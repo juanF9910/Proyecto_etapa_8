@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GeneralServiceService } from '../../services/general-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -33,11 +33,21 @@ export class FormRegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   private buildForm() {
-    this.form = this.formBuilder.nonNullable.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required]],
-      confirm_password: ['', Validators.required]
-    });
+    this.form = this.formBuilder.group(
+      {
+        username: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirm_password: ['', Validators.required]
+      },
+      { validators: this.passwordsMatchValidator } // ✅ Se agrega el validador
+    );
+  }
+
+  // ✅ Validador personalizado para comprobar si las contraseñas coinciden
+  private passwordsMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirm_password')?.value;
+    return password === confirmPassword ? null : { passwordsMismatch: true };
   }
 
   get nameField() {
@@ -52,27 +62,36 @@ export class FormRegisterComponent implements OnInit {
     return this.form.get('confirm_password') as FormControl;
   }
 
+  get passwordsDoNotMatch() {
+    return this.form.hasError('passwordsMismatch');
+  }
+
   register() {
-    if (this.form.valid) {
-      this.status = 'loading';
-      const { username, password, confirm_password } = this.form.getRawValue();
-      this.generalService.register(username, password, confirm_password)
-        .subscribe({
-          next: () => {
-            this.status = 'success';
-            this.showMessage('Registro exitoso. Redirigiendo...', 'success');
-            setTimeout(() => {
-              this.router.navigate(['/login']);
-            }, 2000); // Redirigir después de 2 segundos
-          },
-          error: (err) => {
-            this.status = 'error';
-            this.showMessage('Error en el registro: ' + err.message, 'error');
-          }
-        });
-    } else {
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
+      if (this.passwordsDoNotMatch) {
+        this.showMessage('Las contraseñas no coinciden.', 'error');
+      }
+      return;
     }
+
+    this.status = 'loading';
+    const { username, password, confirm_password } = this.form.getRawValue(); // ✅ Ensure all values are extracted
+
+    this.generalService.register(username, password, confirm_password) // ✅ Pass all three arguments
+      .subscribe({
+        next: () => {
+          this.status = 'success';
+          this.showMessage('Registro exitoso. Redirigiendo...', 'success');
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        },
+        error: (err) => {
+          this.status = 'error';
+          this.showMessage('Error en el registro: ' + err.message, 'error');
+        }
+      });
   }
 
   private showMessage(message: string, type: 'success' | 'error'): void {
@@ -80,10 +99,6 @@ export class FormRegisterComponent implements OnInit {
       duration: 2000,
       panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error'
     });
-  }
-
-  navigateToLogin() {
-    this.router.navigate(['/login']);
   }
 
   toggleConfirmPasswordVisibility() {
@@ -94,8 +109,11 @@ export class FormRegisterComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
+  navigateToLogin() {
+    this.router.navigate(['/login']);
+  }
+
   navigateToHome() {
     this.router.navigate(['/posts']);
   }
-
 }
