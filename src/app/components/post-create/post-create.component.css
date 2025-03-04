@@ -138,6 +138,13 @@ select {
   animation: fadeOut 1.5s ease-in-out 1s forwards;
 }
 
+.post-content p {
+  white-space: pre-wrap; /* Mantiene los saltos de línea */
+  word-wrap: break-word;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 @keyframes fadeOut {
   from {
     opacity: 1;

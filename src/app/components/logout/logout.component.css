@@ -1,5 +1,5 @@
 .cute-button {
-  background: linear-gradient(135deg, #32CD32, #4A00E0);
+  background: linear-gradient(135deg, #d9bf1a, #d9cc42);
   color: white;
   display: flex;
   border: none;
@@ -14,7 +14,7 @@
 }
 
 .cute-button:hover {
-  background: linear-gradient(135deg, #4A00E0, #32CD32);
+  background: linear-gradient(135deg, #e1d563, #ddc01d);
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }

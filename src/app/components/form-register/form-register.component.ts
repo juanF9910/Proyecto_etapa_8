@@ -94,4 +94,8 @@ export class FormRegisterComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
+  navigateToHome() {
+    this.router.navigate(['/posts']);
+  }
+
 }

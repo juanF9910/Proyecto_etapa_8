@@ -25,7 +25,7 @@
 }
 
 .nav-btn {
-  background: linear-gradient(135deg, #4CAF50, #2196F3, #9C27B0);
+  background: linear-gradient(135deg, #ecde5e, #e4db88, #8a7a22);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -36,7 +36,7 @@
 }
 
 .nav-btn:hover {
-  background: linear-gradient(135deg, #2196F3, #9C27B0, #4CAF50);
+  background: linear-gradient(135deg, #e6d44b, #d6d33e, #deb82f);
 }
 
 /* POSTS */
@@ -52,6 +52,8 @@
   padding: 20px;
   text-align: left;
   transition: transform 0.3s ease;
+  display: block;
+  word-wrap: break-word;
 }
 
 .post:hover {
