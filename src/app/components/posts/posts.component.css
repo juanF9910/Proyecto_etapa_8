@@ -26,7 +26,7 @@
 
 .nav-btn {
   background: linear-gradient(135deg, #ecde5e, #e4db88, #8a7a22);
-  color: white;
+  color: rgb(12, 12, 12);
   border: none;
   padding: 10px 20px;
   font-size: 16px;

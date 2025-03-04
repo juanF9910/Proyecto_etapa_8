@@ -22,7 +22,7 @@ body {
 .logo {
   font-size: 2rem;
   font-weight: bold;
-  color: white;
+  color: rgb(19, 18, 18);
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -39,7 +39,7 @@ body {
 }
 
 .nav-list li a {
-  color: white;
+  color: rgb(9, 8, 8);
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
