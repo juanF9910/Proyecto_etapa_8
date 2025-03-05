@@ -35,7 +35,7 @@
       </div>
 
       <!-- Columna Derecha (Dropdowns) -->
-      <div class="form-column inputs">
+      <!-- <div class="form-column inputs">
         <select id="is_public" class="form-control" formControlName="is_public">
           <option *ngFor="let permission of permissions_public" [value]="permission">{{ permission }}</option>
         </select>
@@ -51,7 +51,37 @@
         <select id="owner" class="form-control" formControlName="owner">
           <option *ngFor="let permission of permissions_owner" [value]="permission">{{ permission }}</option>
         </select>
+      </div> -->
+
+      <div class="form-column inputs">
+        <!-- Público -->
+        <select id="is_public" class="form-control" formControlName="is_public">
+          <option *ngFor="let permission of permissions_public" [value]="permission">
+            {{ permission }}
+          </option>
+        </select>
+
+        <!-- Autenticado -->
+        <select id="authenticated" class="form-control" formControlName="authenticated">
+          <option *ngFor="let permission of permissions"
+                  [value]="permission"
+                  [disabled]="editForm.get('team')?.value === 'none' ||
+                              (editForm.get('team')?.value === 'read only' && permission === 'read and edit')">
+            {{ permission }}
+          </option>
+        </select>
+
+        <!-- Equipo -->
+        <select id="team" class="form-control" formControlName="team">
+          <option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</option>
+        </select>
+
+        <!-- Dueño -->
+        <select id="owner" class="form-control" formControlName="owner">
+          <option *ngFor="let permission of permissions_owner" [value]="permission">{{ permission }}</option>
+        </select>
       </div>
+
     </div>
 
     <!-- Botones -->

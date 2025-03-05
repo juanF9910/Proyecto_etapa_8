@@ -129,7 +129,6 @@ export class PostsComponent implements OnInit {
     this.router.navigate([`/posts/${postId}`]);
   }
 
-
   navigateToCreatePost(): void {
     this.router.navigate(['/posts/create/']);
   }
