@@ -190,27 +190,42 @@ select {
   border-radius: 0 0 6px 6px;
 }
 
-/* Fondo blanco solo en el editor de Quill */
-.custom-quill-editor .ql-container {
-  background: white !important;
+/* Asegurar fondo blanco en el editor */
+.custom-quill-editor {
+  background-color: white !important; /* Garantizar fondo blanco */
+  padding: 10px;
   border-radius: 6px;
-  min-height: 200px; /* Ajusta la altura según necesites */
 }
 
-/* Ajuste del contenido dentro del editor */
-.custom-quill-editor .ql-editor {
+/* Contenedor del editor de texto */
+.custom-quill-editor .ql-container {
+  background-color: white !important;
+  color: black !important;
+  border-radius: 6px;
   min-height: 200px;
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-/* Borde y estilos al hacer foco */
-.custom-quill-editor .ql-container.ql-snow {
   border: 1px solid #ccc;
 }
 
-.custom-quill-editor .ql-container.ql-snow:focus-within {
-  border-color: #FFA726;
-  box-shadow: 0 0 6px rgba(50, 50, 50, 0.2);
+/* Área donde se escribe */
+.custom-quill-editor .ql-editor {
+  background-color: white !important;
+  color: black !important;
+  min-height: 150px;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 10px;
+  border-radius: 6px;
 }
 
+/* Asegurar que el toolbar no tenga transparencia */
+.custom-quill-editor .ql-toolbar {
+  background-color: white !important;
+  border-radius: 6px 6px 0 0;
+}
+
+/* Solucionar opacidad en contenedores padres */
+.edit-post-container,
+.form-grid,
+.form-column {
+  background: none !important;
+}
