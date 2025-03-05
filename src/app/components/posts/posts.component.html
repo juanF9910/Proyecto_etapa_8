@@ -13,7 +13,7 @@
 
 
 <ng-template #noPosts>
-  <p class="no-posts">No posts available.</p>
+  <p class="no-posts"></p>
 </ng-template>
 
 <div *ngIf="displayedPosts.length > 0; else noPosts">
@@ -54,11 +54,18 @@
 
     </div>
     <div class="post-buttons">
-      <button class="icon-button like-button" *ngIf="isAuthenticated"
+      <!-- <button class="icon-button like-button" *ngIf="isAuthenticated"
               (click)="likePost(post.id); $event.stopPropagation();"
               title="Like">
         ❤️
-      </button>
+      </button> -->
+
+      <button class="icon-button like-button" *ngIf="isAuthenticated"
+        (click)="likePost(post.id); $event.stopPropagation();"
+        title="Like">
+  {{ alreadyLiked[post.id] ? '❤️' : '🤍' }}
+</button>
+
 
       <button class="icon-button comment-button" *ngIf="isAuthenticated"
               (click)="navigateToPost(post.id); $event.stopPropagation();"

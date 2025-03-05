@@ -9,6 +9,7 @@ import { LikesComponent } from '../likes/likes.component';
 import { DeleteComponent } from '../delete/delete.component';
 import { GeneralServiceService } from '../../services/general-service.service';
 import { catchError, map, Observable, of } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-posts',
@@ -28,7 +29,7 @@ export class PostsComponent implements OnInit {
   authorizationError: boolean = false;
   platformId!: Object;
   editPermissions: { [postId: number]: boolean } = {}; // ✅ Store edit permissions per post
-
+  alreadyLiked: { [postId: number]: boolean } = {};
   // Variables de paginación
   currentPage: number = 1;
   pageSize: number = 10; // 10 posts por página
@@ -38,7 +39,8 @@ export class PostsComponent implements OnInit {
     private blogPostService: BlogPostService,
     private generalService: GeneralServiceService,
     private router: Router,
-    private injector: Injector
+    private injector: Injector,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -137,7 +139,15 @@ export class PostsComponent implements OnInit {
       next: (response) => {
         const post = this.blogPosts.find(p => p.id === postId);
         if (post) {
-          post.likes_count += response.detail === "Like eliminado." ? -1 : 1;
+          if (response.detail === "Like eliminado.") {
+            post.likes_count -= 1;
+            this.alreadyLiked[postId] = false; // ✅ Update like state
+          } else {
+            post.likes_count += 1;
+            this.alreadyLiked[postId] = true; // ✅ Update like state
+          }
+
+          this.cdRef.detectChanges(); // ✅ Force UI update
         }
       },
       error: (error) => {
@@ -145,6 +155,12 @@ export class PostsComponent implements OnInit {
       }
     });
   }
+
+  isPostLiked(post: BlogPost): boolean {
+    return post.liked_by.some(like => like.username === this.username);
+  }
+
+
 
 
 

@@ -1,8 +1,8 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, expand, map, reduce, tap } from 'rxjs/operators';
 import { BlogPost, BlogComment, BlogLikes } from '../models/blog';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -25,15 +25,32 @@ export class BlogPostService {
 
   getBlogPosts(): Observable<BlogPost[]> {
     if (!isPlatformBrowser(this.platformId)) return of([]);
-    return this.http.get<{ results?: BlogPost[] }>(`${environment.apiUrl}/posts/`, { headers: this.getAuthHeaders() })
-      .pipe(
-        map(response => response.results || []),
-        catchError(error => {
-          console.error("Error fetching posts:", error);
-          return of([]);
-        })
-      );
+
+    const fetchPage = (url: string): Observable<{ results: BlogPost[], next_page_url?: string }> => {
+      return this.http.get<{ results?: BlogPost[], next_page_url?: string }>(url, { headers: this.getAuthHeaders() })
+        .pipe(
+          map(response => ({
+            results: response.results || [],
+            next_page_url: response.next_page_url
+          }))
+        );
+    };
+
+    return fetchPage(`${environment.apiUrl}/posts/`).pipe(
+      expand(response => response.next_page_url ? fetchPage(response.next_page_url) : EMPTY),
+      reduce< { results: BlogPost[], next_page_url?: string }, BlogPost[] >(
+        (acc, response) => [...acc, ...response.results],
+        []
+      ),
+      catchError(error => {
+        console.error("Error fetching posts:", error);
+        return of([]);
+      })
+    );
   }
+
+
+
 
   getComments(postId: number): Observable<BlogComment[]> {
     return this.http.get<BlogComment[]>(`${environment.apiUrl}/comments/${postId}`, { headers: this.getAuthHeaders() })
