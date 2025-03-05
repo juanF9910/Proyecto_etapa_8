@@ -54,17 +54,14 @@
 
     </div>
     <div class="post-buttons">
-      <!-- <button class="icon-button like-button" *ngIf="isAuthenticated"
-              (click)="likePost(post.id); $event.stopPropagation();"
-              title="Like">
-        ❤️
-      </button> -->
 
       <button class="icon-button like-button" *ngIf="isAuthenticated"
         (click)="likePost(post.id); $event.stopPropagation();"
         title="Like">
-  {{ alreadyLiked[post.id] ? '❤️' : '🤍' }}
-</button>
+         {{ alreadyLiked[post.id] ? '❤️' : '🤍' }}
+      </button>
+
+
 
 
       <button class="icon-button comment-button" *ngIf="isAuthenticated"

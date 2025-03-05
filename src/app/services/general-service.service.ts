@@ -33,13 +33,13 @@ export class GeneralServiceService {
   }
 
 
-  private setSession(accessToken: string, refreshToken: string) {
+  setSession(accessToken: string, refreshToken: string) {
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
     this.scheduleTokenRefresh();
   }
 
-  private clearSession() {
+  clearSession() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     clearTimeout(this.refreshTimeout);

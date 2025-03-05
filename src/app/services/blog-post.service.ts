@@ -105,14 +105,6 @@ export class BlogPostService {
     return isPlatformBrowser(this.platformId) && !!localStorage.getItem('access_token');
   }
 
-  // private handleError(error: HttpErrorResponse): Observable<never> {
-  //   const errorMessage = error.error instanceof ErrorEvent
-  //     ? `Client error: ${error.error.message}`
-  //     : `Server error: ${error.status} - ${error.message}`;
-  //   console.error(errorMessage);
-  //   return throwError(() => new Error(errorMessage));
-  // }
-
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage: string;
 

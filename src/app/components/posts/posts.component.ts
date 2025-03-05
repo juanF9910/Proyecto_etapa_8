@@ -1,15 +1,14 @@
-import { Component, OnInit, Inject, Injector } from '@angular/core';
+import { Component, OnInit, Inject, Injector, ChangeDetectorRef, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BlogPostService } from '../../services/blog-post.service';
-import { BlogPost } from '../../models/blog';
 import { Router } from '@angular/router';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
+
+import { BlogPostService } from '../../services/blog-post.service';
+import { GeneralServiceService } from '../../services/general-service.service';
+import { BlogPost, BlogLikes } from '../../models/blog';
 import { LogoutComponent } from '../logout/logout.component';
-import { PLATFORM_ID } from '@angular/core';
 import { LikesComponent } from '../likes/likes.component';
 import { DeleteComponent } from '../delete/delete.component';
-import { GeneralServiceService } from '../../services/general-service.service';
-import { catchError, map, Observable, of } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-posts',
@@ -18,22 +17,23 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
-
 export class PostsComponent implements OnInit {
   blogPosts: BlogPost[] = [];
   displayedPosts: BlogPost[] = [];
   activePostId: number | null = null;
-  username: string = '';
-  isAuthenticated: boolean = false;
-  showLikes: { [key: number]: boolean } = {};
-  authorizationError: boolean = false;
+  username = '';
+  isAuthenticated = false;
+  showLikes: Record<number, boolean> = {};
+  authorizationError = false;
   platformId!: Object;
-  editPermissions: { [postId: number]: boolean } = {}; // ✅ Store edit permissions per post
-  alreadyLiked: { [postId: number]: boolean } = {};
+  editPermissions: Record<number, boolean> = {};
+  alreadyLiked: Record<number, boolean> = {};
+  private likesCache: Record<number, BlogLikes[]> = {};
+
   // Variables de paginación
-  currentPage: number = 1;
-  pageSize: number = 10; // 10 posts por página
-  totalPages: number = 0;
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 0;
 
   constructor(
     private blogPostService: BlogPostService,
@@ -45,11 +45,11 @@ export class PostsComponent implements OnInit {
 
   ngOnInit(): void {
     this.platformId = this.injector.get(PLATFORM_ID);
-    this.getPosts();
     this.isAuthenticated = this.blogPostService.isAuthenticated();
     if (this.isAuthenticated) {
       this.username = this.generalService.getUserName();
     }
+    this.getPosts();
   }
 
   getPosts(): void {
@@ -61,45 +61,23 @@ export class PostsComponent implements OnInit {
 
         this.blogPosts.forEach(post => {
           this.checkEditPermission(post.id);
+          this.hasUserLikedPost(post.id, this.username).subscribe(liked => this.alreadyLiked[post.id] = liked);
         });
       },
-      (error) => {
-        console.error('Error fetching blog posts:', error);
-      }
+      (error) => console.error('Error fetching blog posts:', error)
     );
   }
 
   checkEditPermission(postId: number): void {
-    this.editpermission(postId).subscribe(
-      (hasPermission) => {
-        this.editPermissions[postId] = hasPermission;
-      },
-      (error) => {
-        console.error(`Error checking edit permission for post ${postId}:`, error);
-        this.editPermissions[postId] = false;
-      }
-    );
-  }
-
-  editpermission(postId: number): Observable<boolean> {
-    return this.blogPostService.editBlogPost(postId, {}).pipe(
+    this.blogPostService.editBlogPost(postId, {}).pipe(
       map(() => true),
-      catchError(error => {
-        console.error('Error verifying permissions:', error);
-        return of(false);
-      })
-    );
+      catchError(() => of(false))
+    ).subscribe(hasPermission => this.editPermissions[postId] = hasPermission);
   }
-
-  navigateToEditPost(postId: number): void {
-    this.router.navigate([`/posts/${postId}/edit`]);
-  }
-
 
   updateDisplayedPosts(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedPosts = this.blogPosts.slice(startIndex, endIndex);
+    this.displayedPosts = this.blogPosts.slice(startIndex, startIndex + this.pageSize);
   }
 
   goToPage(page: number): void {
@@ -109,12 +87,46 @@ export class PostsComponent implements OnInit {
     }
   }
 
-
   getPaginationInfo(): string {
-    if (this.blogPosts.length === 0) return 'No hay posts aún.';
+    if (!this.blogPosts.length) return 'No hay posts aún.';
     const start = (this.currentPage - 1) * this.pageSize + 1;
     const end = Math.min(this.currentPage * this.pageSize, this.blogPosts.length);
     return `${start}-${end} de ${this.blogPosts.length}`;
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
+  }
+
+  likePost(postId: number): void {
+    this.blogPostService.toggleLike(postId).subscribe({
+      next: (response) => {
+        const post = this.blogPosts.find(p => p.id === postId);
+        if (post) {
+          post.likes_count += response.detail === "Like eliminado." ? -1 : 1;
+          this.alreadyLiked[postId] = response.detail !== "Like eliminado.";
+          this.cdRef.detectChanges();
+        }
+      },
+      error: (error) => console.error('Error liking post:', error)
+    });
+  }
+
+  getLikesPost(postId: number): Observable<BlogLikes[]> {
+    return this.blogPostService.getLikes(postId).pipe(
+      map(likes => likes.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())),
+      catchError(error => {
+        console.error('Error fetching likes:', error);
+        return throwError(() => new Error('Failed to fetch likes'));
+      })
+    );
+  }
+
+  hasUserLikedPost(postId: number, username: string): Observable<boolean> {
+    return this.getLikesPost(postId).pipe(
+      map(likes => likes.some(like => like.username === username)),
+      catchError(() => of(false))
+    );
   }
 
   navigateToRegister(): void {
@@ -133,34 +145,7 @@ export class PostsComponent implements OnInit {
     this.router.navigate(['/posts/create/']);
   }
 
-  likePost(postId: number): void {
-    this.blogPostService.toggleLike(postId).subscribe({
-      next: (response) => {
-        const post = this.blogPosts.find(p => p.id === postId);
-        if (post) {
-          if (response.detail === "Like eliminado.") {
-            post.likes_count -= 1;
-            this.alreadyLiked[postId] = false; // ✅ Update like state
-          } else {
-            post.likes_count += 1;
-            this.alreadyLiked[postId] = true; // ✅ Update like state
-          }
-
-          this.cdRef.detectChanges(); // ✅ Force UI update
-        }
-      },
-      error: (error) => {
-        console.error('Error liking post:', error);
-      }
-    });
+  navigateToEditPost(postId: number): void {
+    this.router.navigate([`/posts/${postId}/edit`]);
   }
-
-  isPostLiked(post: BlogPost): boolean {
-    return post.liked_by.some(like => like.username === this.username);
-  }
-
-
-
-
-
 }
