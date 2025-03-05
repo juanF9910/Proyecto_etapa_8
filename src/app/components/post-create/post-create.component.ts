@@ -5,13 +5,13 @@ import { BlogPostService } from '../../services/blog-post.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'app-post-create',
-  standalone: true,
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, QuillModule]
 })
 export class PostCreateComponent implements OnInit {
   createForm: FormGroup;
@@ -19,6 +19,24 @@ export class PostCreateComponent implements OnInit {
   permissions_public = ['none', 'read only'];
   permissions = ['none', 'read only', 'read and edit'];
   permissions_owner = ['read and edit'];
+
+  quillConfig = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],  // Estilos básicos
+      [{ 'header': 1 }, { 'header': 2 }],  // Tamaño de encabezado
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],  // Listas
+      [{ 'script': 'sub'}, { 'script': 'super' }],  // Subíndices y superíndices
+      [{ 'indent': '-1'}, { 'indent': '+1' }],  // Sangría
+      [{ 'direction': 'rtl' }],  // Dirección del texto
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // Tamaño de fuente
+      [{ 'color': [] }, { 'background': [] }],  // Color de texto y fondo
+      [{ 'font': [] }],  // Fuente
+      [{ 'align': [] }],  // Alineación
+      ['link', 'image', 'video', 'blockquote', 'code-block'],  // Enlaces, imágenes, videos y bloques de código
+      ['clean']  // Botón para limpiar formato
+    ]
+  };
+
 
   constructor(
     private fb: FormBuilder,
@@ -58,13 +76,19 @@ export class PostCreateComponent implements OnInit {
     });
   }
 
+
   onSubmit(): void {
     if (this.createForm.invalid) {
       this.showMessage('Por favor completa los campos correctamente.', 'error');
       return;
     }
 
-    const { title, content, is_public, authenticated, team, owner } = this.createForm.value;
+    let { title, content, is_public, authenticated, team, owner } = this.createForm.value;
+
+    // Extraer solo el texto sin etiquetas HTML
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = content;
+    content = tempDiv.textContent || tempDiv.innerText || ""; // Remueve etiquetas HTML
 
     this.blogPostService.createBlogPost(title, content, is_public, authenticated, team, owner).subscribe({
       next: () => {
@@ -77,6 +101,7 @@ export class PostCreateComponent implements OnInit {
       }
     });
   }
+
 
   onCancel(): void {
     this.router.navigate(['/posts']);

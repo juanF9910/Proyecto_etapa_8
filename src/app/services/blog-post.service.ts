@@ -105,13 +105,25 @@ export class BlogPostService {
     return isPlatformBrowser(this.platformId) && !!localStorage.getItem('access_token');
   }
 
+  // private handleError(error: HttpErrorResponse): Observable<never> {
+  //   const errorMessage = error.error instanceof ErrorEvent
+  //     ? `Client error: ${error.error.message}`
+  //     : `Server error: ${error.status} - ${error.message}`;
+  //   console.error(errorMessage);
+  //   return throwError(() => new Error(errorMessage));
+  // }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
-    const errorMessage = error.error instanceof ErrorEvent
-      ? `Client error: ${error.error.message}`
-      : `Server error: ${error.status} - ${error.message}`;
+    let errorMessage: string;
+
+    if (error.error && typeof error.error === 'object' && 'message' in error.error) {
+      errorMessage = `Client error: ${error.error.message}`;
+    } else {
+      errorMessage = `Server error: ${error.status} - ${error.message}`;
+    }
+
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
-
 
 }

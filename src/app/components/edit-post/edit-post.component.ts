@@ -7,14 +7,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { QuillModule } from 'ngx-quill';
 @Component({
   selector: 'app-edit-post',
   standalone: true,
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule,
+    QuillModule]
 })
+
 export class EditPostComponent implements OnInit {
   editForm!: FormGroup;
   postId!: number;
@@ -24,6 +26,24 @@ export class EditPostComponent implements OnInit {
   permissions_public = ['none', 'read only'];
   permissions = ['none', 'read only', 'read and edit'];
   permissions_owner = ['read and edit'];
+
+
+  quillConfig = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],  // Estilos básicos
+      [{ 'header': 1 }, { 'header': 2 }],  // Tamaño de encabezado
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],  // Listas
+      [{ 'script': 'sub'}, { 'script': 'super' }],  // Subíndices y superíndices
+      [{ 'indent': '-1'}, { 'indent': '+1' }],  // Sangría
+      [{ 'direction': 'rtl' }],  // Dirección del texto
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // Tamaño de fuente
+      [{ 'color': [] }, { 'background': [] }],  // Color de texto y fondo
+      [{ 'font': [] }],  // Fuente
+      [{ 'align': [] }],  // Alineación
+      ['link', 'image', 'video', 'blockquote', 'code-block'],  // Enlaces, imágenes, videos y bloques de código
+      ['clean']  // Botón para limpiar formato
+    ]
+  };
 
   constructor(
     private fb: FormBuilder,

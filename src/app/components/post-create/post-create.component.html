@@ -11,14 +11,21 @@
       </div>
     </div>
 
-    <!-- Contenido -->
     <div class="form-group">
-      <label for="content">Contenido</label>
-      <textarea id="content" class="form-control" rows="6" formControlName="content"></textarea>
+      <label for="content">Contenido:</label>
+      <quill-editor
+        id="content"
+        formControlName="content"
+        [modules]="quillConfig"
+        class="custom-quill-editor"
+      ></quill-editor>
       <div *ngIf="createForm.get('content')?.invalid && createForm.get('content')?.touched" class="error">
         El contenido es obligatorio.
       </div>
     </div>
+
+
+
 
     <!-- Categoría y Permisos en dos columnas con títulos -->
     <div class="form-grid">

@@ -10,6 +10,12 @@
   font-family: 'Poppins', sans-serif;
 }
 
+input#title {
+  background: white;
+}
+
+
+
 h2 {
   text-align: center;
   margin-bottom: 25px;
@@ -154,3 +160,57 @@ select {
     visibility: hidden;
   }
 }
+
+/* Estilos para el título */
+
+
+/* Asegurar fondo blanco en el editor de texto */
+.ql-container {
+  background: white !important;
+  border-radius: 6px;
+  min-height: 200px;
+}
+
+/* Editor interno (donde se escribe el contenido) */
+.ql-editor {
+  background: white !important;
+  min-height: 150px;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* Bordes y ajustes de la caja del editor */
+.ql-toolbar {
+  border-radius: 6px 6px 0 0;
+}
+
+.ql-container {
+  border-radius: 0 0 6px 6px;
+}
+
+/* Fondo blanco solo en el editor de Quill */
+.custom-quill-editor .ql-container {
+  background: white !important;
+  border-radius: 6px;
+  min-height: 200px; /* Ajusta la altura según necesites */
+}
+
+/* Ajuste del contenido dentro del editor */
+.custom-quill-editor .ql-editor {
+  min-height: 200px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Borde y estilos al hacer foco */
+.custom-quill-editor .ql-container.ql-snow {
+  border: 1px solid #ccc;
+}
+
+.custom-quill-editor .ql-container.ql-snow:focus-within {
+  border-color: #FFA726;
+  box-shadow: 0 0 6px rgba(50, 50, 50, 0.2);
+}
+

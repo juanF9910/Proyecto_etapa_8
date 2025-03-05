@@ -114,3 +114,19 @@ select {
 .btn-secondary:hover {
   background: #8E24AA;
 }
+
+.custom-quill-editor .ql-container {
+  background-color: #ffffff !important; /* White background */
+  color: #000000; /* Black text */
+  border-radius: 5px;
+  min-height: 200px; /* Adjust height */
+}
+
+.custom-quill-editor .ql-editor {
+  background-color: #ffffff !important; /* White background */
+  color: #000000; /* Black text */
+  min-height: 150px; /* Adjust editor height */
+  padding: 10px;
+  border-radius: 5px;
+}
+
