@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { GeneralServiceService } from './general-service.service';
 import { environment } from '../../environments/environment';
 
-fdescribe('GeneralServiceService - Register', () => {
+describe('GeneralServiceService - Register', () => {
   let service: GeneralServiceService;
   let httpMock: HttpTestingController;
 

@@ -23,6 +23,7 @@ export class BlogPostService {
     return token ? headers.set('Authorization', `Bearer ${token}`) : headers;
   }
 
+
   getBlogPosts(): Observable<BlogPost[]> {
     if (!isPlatformBrowser(this.platformId)) return of([]);
 
@@ -52,15 +53,39 @@ export class BlogPostService {
 
 
 
+  // getComments(postId: number): Observable<BlogComment[]> {
+  //   return this.http.get<BlogComment[]>(`${environment.apiUrl}/comments/${postId}`, { headers: this.getAuthHeaders() })
+  //     .pipe(catchError(this.handleError));
+  // }
+
+
   getComments(postId: number): Observable<BlogComment[]> {
-    return this.http.get<BlogComment[]>(`${environment.apiUrl}/comments/${postId}`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+    return this.http
+      .get<BlogComment[]>(`${environment.apiUrl}/comments/${postId}`, { headers: this.getAuthHeaders() })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching comments:', error);
+          return of([]); // Return an empty array on error
+        })
+      );
   }
+
+
+  // getLikes(postId: number): Observable<BlogLikes[]> {
+  //   return this.http.get<BlogLikes[]>(`${environment.apiUrl}/likes/${postId}`, { headers: this.getAuthHeaders() })
+  //     .pipe(catchError(this.handleError));
+  // }
 
   getLikes(postId: number): Observable<BlogLikes[]> {
     return this.http.get<BlogLikes[]>(`${environment.apiUrl}/likes/${postId}`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(error => {
+          console.error(`Error fetching likes for post ${postId}:`, error);
+          return of([]); // Devuelve un array vacío en caso de error
+        })
+      );
   }
+
 
   toggleLike(postId: number): Observable<any> {
     return this.http.post(`${environment.apiUrl}/likes/${postId}`, {}, { headers: this.getAuthHeaders() })
