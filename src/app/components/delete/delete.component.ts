@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './delete.component.html',
   styleUrl: './delete.component.css'
 })
-export class DeleteComponent implements OnInit {
+export class DeleteComponent{
   @Input() postId!: number;  // Asegúrate de definir el decorador @Input()
 
   showConfirmation = false;
@@ -21,9 +21,7 @@ export class DeleteComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    console.log("Delete button for post ID:", this.postId);
-  }
+
 
   confirmDelete() {
     this.showConfirmation = true;

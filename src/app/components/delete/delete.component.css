@@ -35,7 +35,7 @@
 }
 
 .confirm-delete {
-  background-color: #e74c3c;
+  background-color: #b3382a;
   color: white;
 }
 
@@ -46,9 +46,9 @@
 
 /* Button hover effects */
 .confirm-delete:hover {
-  background-color: #c0392b;
+  background-color: #e63922;
 }
 
 .cancel-delete:hover {
-  background-color: #7f8c8d;
+  background-color: #435658;
 }
