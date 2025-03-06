@@ -113,22 +113,50 @@ export class EditPostComponent implements OnInit {
     }
   }
 
+  // onSubmit(): void {
+  //   if (this.editForm.invalid) {
+  //     this.showMessage('Por favor completa los campos correctamente.', 'error');
+  //     return;
+  //   }
+
+  //   this.blogPostService.editBlogPost(this.postId, this.editForm.value).subscribe({
+  //     next: () => {
+  //       this.showMessage('Post actualizado exitosamente.', 'success');
+  //       this.router.navigate(['/posts', this.postId]);
+  //     },
+  //     error: (err) => {
+  //       this.showMessage(err.message, 'error');
+  //     }
+  //   });
+  // }
+
   onSubmit(): void {
     if (this.editForm.invalid) {
       this.showMessage('Por favor completa los campos correctamente.', 'error');
       return;
     }
 
-    this.blogPostService.editBlogPost(this.postId, this.editForm.value).subscribe({
+    let { title, content, is_public, authenticated, team, owner } = this.editForm.value;
+
+    // Ensure Quill content is correctly processed
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = content;
+    content = tempDiv.innerHTML; // Keeps <p>, <br>, etc.
+
+    const updatedPost = { title, content, is_public, authenticated, team, owner };
+
+    this.blogPostService.editBlogPost(this.postId, updatedPost).subscribe({
       next: () => {
         this.showMessage('Post actualizado exitosamente.', 'success');
         this.router.navigate(['/posts', this.postId]);
       },
       error: (err) => {
+        console.error("Error response from backend:", err);
         this.showMessage(err.message, 'error');
       }
     });
   }
+
 
   onCancel(): void {
     this.router.navigate(['/posts']);

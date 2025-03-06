@@ -21,7 +21,7 @@
        [ngClass]="{ 'pulsate': activePostId === post.id }">
 
     <h2 class="post-title">{{ post.title }}</h2>
-    <p>{{ post.excerpt }}</p>
+    <p [innerHTML]="post.excerpt"></p>
 
     <p *ngIf="post.content.length > post.excerpt.length"
        class="show-more"

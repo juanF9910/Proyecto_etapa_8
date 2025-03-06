@@ -1,6 +1,6 @@
 <div class="post-container">
   <h2 class="post-title">{{ post?.title }}</h2>
-  <p class="post-excerpt">{{ post?.content }}</p>
+  <p class="post-excerpt" [innerHTML]="post?.content"></p>
   <small class="post-meta">
     Autor: <strong>{{ post?.username }}</strong> | {{ post?.created_at | date:'short' }}
   </small>

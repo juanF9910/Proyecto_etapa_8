@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { BlogPostService } from '../../services/blog-post.service';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './delete.component.html',
   styleUrl: './delete.component.css'
 })
-export class DeleteComponent {
+export class DeleteComponent implements OnInit {
   @Input() postId!: number;  // Asegúrate de definir el decorador @Input()
 
   showConfirmation = false;
@@ -19,7 +19,11 @@ export class DeleteComponent {
     private postService: BlogPostService,
     private router: Router) {
 
-    }
+  }
+
+  ngOnInit(): void {
+    console.log("Delete button for post ID:", this.postId);
+  }
 
   confirmDelete() {
     this.showConfirmation = true;
