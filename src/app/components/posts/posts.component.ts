@@ -29,12 +29,14 @@ export class PostsComponent implements OnInit {
   editPermissions: Record<number, boolean> = {};
   alreadyLiked: Record<number, boolean> = {};
   private likesCache: Record<number, BlogLikes[]> = {};
-
+  deletePopupVisible = false;
+  postIdToDelete: number | null = null;
   // Variables de paginación
   currentPage = 1;
   pageSize = 10;
   totalPages = 0;
-
+  showConfirmation = false;
+  postId: number | undefined;
   constructor(
     private blogPostService: BlogPostService,
     private generalService: GeneralServiceService,
@@ -52,6 +54,7 @@ export class PostsComponent implements OnInit {
     this.getPosts();
   }
 
+
   getPosts(): void {
     this.blogPostService.getBlogPosts().subscribe(
       (posts) => {
@@ -67,6 +70,7 @@ export class PostsComponent implements OnInit {
       (error) => console.error('Error fetching blog posts:', error)
     );
   }
+
 
   checkEditPermission(postId: number): void {
     this.blogPostService.editBlogPost(postId, {}).pipe(
@@ -148,4 +152,34 @@ export class PostsComponent implements OnInit {
   navigateToEditPost(postId: number): void {
     this.router.navigate([`/posts/${postId}/edit`]);
   }
+
+  confirmDelete() {
+    this.showConfirmation = true;
+    this.router.navigate(['/posts']);
+  }
+
+  cancelDelete() {
+    this.showConfirmation = false;
+    this.router.navigate(['/posts']);
+  }
+
+  deletePost(postId: number) {
+    this.showConfirmation = false; // Hide the popup immediately
+
+    this.blogPostService.deletePost(postId).subscribe({
+      next: () => {
+        console.log("Post deleted successfully");
+
+        // Refresh the current view or navigate to another page
+        this.router.navigate(['/posts']).then(() => {
+          window.location.reload(); // Ensures post list updates
+        });
+      },
+      error: (error) => {
+        console.error("Error deleting post:", error);
+      }
+    });
+  }
+
+
 }

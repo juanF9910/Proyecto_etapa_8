@@ -51,8 +51,6 @@ export class BlogPostService {
   }
 
 
-
-
   // getComments(postId: number): Observable<BlogComment[]> {
   //   return this.http.get<BlogComment[]>(`${environment.apiUrl}/comments/${postId}`, { headers: this.getAuthHeaders() })
   //     .pipe(catchError(this.handleError));

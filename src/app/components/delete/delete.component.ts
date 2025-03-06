@@ -21,8 +21,6 @@ export class DeleteComponent{
 
   }
 
-
-
   confirmDelete() {
     this.showConfirmation = true;
     this.router.navigate(['/posts']);
@@ -33,7 +31,7 @@ export class DeleteComponent{
     this.router.navigate(['/posts']);
   }
 
-  deletePost() {
+  deletePost(postId: number) {
     this.showConfirmation = false; // Hide the popup immediately
 
     this.postService.deletePost(this.postId).subscribe({

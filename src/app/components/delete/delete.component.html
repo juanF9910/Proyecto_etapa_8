@@ -4,12 +4,8 @@
   </button>
 </div>
 
-<!-- Overlay for background dimming -->
-<div class="overlay" *ngIf="showConfirmation"></div>
-
-<!-- Centered Confirmation Popup -->
 <div class="confirmation-popup" *ngIf="showConfirmation">
   <p>Are you sure you want to delete this post?</p>
-  <button class="confirm-delete" (click)="deletePost()">Delete</button>
+  <button class="confirm-delete" (click)="deletePost(postId)">Delete</button>
   <button class="cancel-delete" (click)="cancelDelete()">Cancel</button>
 </div>

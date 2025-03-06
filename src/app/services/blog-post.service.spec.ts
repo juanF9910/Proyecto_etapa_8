@@ -5,7 +5,10 @@ import { BlogComment, BlogPost, BlogLikes } from '../models/blog';
 import { environment } from '../../environments/environment';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-fdescribe('BlogPostService', () => {
+
+
+
+describe('BlogPostService', () => {
   let service: BlogPostService;
   let httpMock: HttpTestingController;
   const apiUrl = `${environment.apiUrl}/posts/`;
@@ -304,6 +307,165 @@ fdescribe('BlogPostService', () => {
       });
 
     });
+
+    describe('createBlogPost', () => {
+
+      it('should create a blog post and return it', () => {
+        const mockPost: BlogPost = {
+          liked_by: [],
+          id: 1,
+          author: 2,
+          username: 'testuser',
+          title: 'Test Title',
+          content: 'Test Content',
+          excerpt: 'Test Content'.slice(0, 200),
+          public: 'true',
+          authenticated: 'true',
+          team: 'Test Team',
+          owner: 'testuser',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          likes_count: 0,
+          comments_count: 0,
+          equipo: null,
+        };
+
+        service.createBlogPost('Test Title', 'Test Content', 'true', 'true', 'Test Team', 'testuser')
+          .subscribe(post => {
+            expect(post).toEqual(mockPost);
+          });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/posts/create/`);
+        expect(req.request.method).toBe('POST');
+        expect(req.request.body).toEqual({
+          title: 'Test Title',
+          content: 'Test Content',
+          is_public: 'true',
+          authenticated: 'true',
+          team: 'Test Team',
+          owner: 'testuser'
+        });
+        req.flush(mockPost);
+      });
+
+      it('should handle errors correctly', () => {
+        const errorMessage = 'Failed to create blog post';
+
+        service.createBlogPost('Test Title', 'Test Content', 'true', 'true', 'Test Team', 'testuser')
+          .subscribe({
+            next: () => fail('Expected an error, but got a response'),
+            error: (error) => {
+              expect(error).toBeTruthy();
+            }
+          });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/posts/create/`);
+        req.flush(errorMessage, { status: 500, statusText: 'Internal Server Error' });
+      });
+
+    });
+
+    describe('addcomment', () => {
+
+      it('should add a comment to a post and return the created comment', () => {
+        const postId = 1;
+        const commentContent = 'This is a test comment';
+        const mockComment: BlogComment = {
+          id: 1,
+          post: postId,
+          username: 'testuser',
+          content: commentContent,
+          created_at: new Date().toISOString(),
+        };
+
+        service.addComment(postId, commentContent).subscribe(comment => {
+          expect(comment).toEqual(mockComment);
+        });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/comments/${postId}`);
+        expect(req.request.method).toBe('POST');
+        expect(req.request.body).toEqual({ content: commentContent });
+
+        req.flush(mockComment); // Simulate backend response
+      });
+
+
+
+    });
+
+    describe('editpost', () => {
+
+      it('should send a PATCH request and return updated blog post', () => {
+        const postId = 1;
+        const updatedData: Partial<BlogPost> = { title: 'Updated Title' };
+        const mockResponse: BlogPost = {
+          id: postId, title: 'Updated Title', content: 'Same content',
+          liked_by: [],
+          author: 0,
+          username: '',
+          excerpt: '',
+          public: '',
+          authenticated: '',
+          team: '',
+          owner: '',
+          created_at: '',
+          updated_at: '',
+          likes_count: 0,
+          comments_count: 0,
+          equipo: null
+        };
+
+        service.editBlogPost(postId, updatedData).subscribe((response) => {
+          expect(response).toEqual(mockResponse);
+        });
+
+        // Verifica que la solicitud se hizo correctamente
+        const req = httpMock.expectOne(`${environment.apiUrl}/posts/${postId}`);
+        expect(req.request.method).toBe('PATCH');
+        expect(req.request.body).toEqual(updatedData);
+
+        // Simula una respuesta del servidor
+        req.flush(mockResponse);
+      });
+
+    });
+
+    describe('deletepost', () => {
+      it('should send a DELETE request and complete successfully', () => {
+        const postId = 1;
+        service.deletePost(postId).subscribe({
+          next: () => {
+            expect(true).toBeTrue(); // Se espera que la solicitud se complete sin errores
+          },
+          error: () => {
+            fail('Expected successful DELETE request, but got an error');
+          }
+        });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/posts/${postId}`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush(null); // Simula una respuesta exitosa sin contenido
+      });
+
+      it('should handle errors when the DELETE request fails', () => {
+        const postId = 1;
+        service.deletePost(postId).subscribe({
+          next: () => {
+            fail('Expected an error response');
+          },
+          error: (error) => {
+            expect(error).toBeTruthy();
+            expect(error.message).toBe('Error deleting the post. Please try again.');
+          }
+        });
+
+        const req = httpMock.expectOne(`${environment.apiUrl}/posts/${postId}`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush({ message: 'Server Error' }, { status: 500, statusText: 'Internal Server Error' });
+      });
+    });
+
+
 
 
 
