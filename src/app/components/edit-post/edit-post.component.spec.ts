@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 
-fdescribe('EditPostComponent', () => {
+describe('EditPostComponent', () => {
   let component: EditPostComponent;
   let fixture: ComponentFixture<EditPostComponent>;
   let mockBlogPostService: jasmine.SpyObj<BlogPostService>;

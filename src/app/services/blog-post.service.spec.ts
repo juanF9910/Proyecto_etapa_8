@@ -6,8 +6,6 @@ import { environment } from '../../environments/environment';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 
-
-
 describe('BlogPostService', () => {
   let service: BlogPostService;
   let httpMock: HttpTestingController;

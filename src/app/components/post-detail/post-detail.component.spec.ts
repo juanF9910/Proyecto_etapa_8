@@ -5,7 +5,7 @@ import { BlogPostService } from '../../services/blog-post.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-fdescribe('PostDetailComponent', () => {
+describe('PostDetailComponent', () => {
   let component: PostDetailComponent;
   let fixture: ComponentFixture<PostDetailComponent>;
 

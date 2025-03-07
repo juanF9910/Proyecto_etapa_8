@@ -113,23 +113,6 @@ export class EditPostComponent implements OnInit {
     }
   }
 
-  // onSubmit(): void {
-  //   if (this.editForm.invalid) {
-  //     this.showMessage('Por favor completa los campos correctamente.', 'error');
-  //     return;
-  //   }
-
-  //   this.blogPostService.editBlogPost(this.postId, this.editForm.value).subscribe({
-  //     next: () => {
-  //       this.showMessage('Post actualizado exitosamente.', 'success');
-  //       this.router.navigate(['/posts', this.postId]);
-  //     },
-  //     error: (err) => {
-  //       this.showMessage(err.message, 'error');
-  //     }
-  //   });
-  // }
-
   onSubmit(): void {
     if (this.editForm.invalid) {
       this.showMessage('Por favor completa los campos correctamente.', 'error');

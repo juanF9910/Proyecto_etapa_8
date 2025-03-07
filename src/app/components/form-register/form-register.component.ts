@@ -35,13 +35,14 @@ export class FormRegisterComponent implements OnInit {
   private buildForm() {
     this.form = this.formBuilder.group(
       {
-        username: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        username: ['', [Validators.required, this.emailValidator]], // ✅ Fixed
+        password: ['', [Validators.required]],
         confirm_password: ['', Validators.required]
       },
-      { validators: this.passwordsMatchValidator } // ✅ Se agrega el validador
+      { validators: this.passwordsMatchValidator }
     );
   }
+
 
   // ✅ Validador personalizado para comprobar si las contraseñas coinciden
   private passwordsMatchValidator(group: AbstractControl): ValidationErrors | null {
@@ -49,6 +50,18 @@ export class FormRegisterComponent implements OnInit {
     const confirmPassword = group.get('confirm_password')?.value;
     return password === confirmPassword ? null : { passwordsMismatch: true };
   }
+
+  private emailValidator(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) {
+      return null; // Allow empty values (handled by required validator)
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(control.value) ? null : { invalidEmail: true };
+  }
+
+
+
 
   get nameField() {
     return this.form.get('username') as FormControl;
@@ -66,9 +79,42 @@ export class FormRegisterComponent implements OnInit {
     return this.form.hasError('passwordsMismatch');
   }
 
+  // register() {
+  //   if (this.form.invalid) {
+  //     this.form.markAllAsTouched();
+  //     if (this.passwordsDoNotMatch) {
+  //       this.showMessage('Las contraseñas no coinciden.', 'error');
+  //     }
+  //     return;
+  //   }
+
+  //   this.status = 'loading';
+  //   const { username, password, confirm_password } = this.form.getRawValue(); // ✅ Ensure all values are extracted
+
+  //   this.generalService.register(username, password, confirm_password) // ✅ Pass all three arguments
+  //     .subscribe({
+  //       next: () => {
+  //         this.status = 'success';
+  //         this.showMessage('Registro exitoso. Redirigiendo...', 'success');
+  //         setTimeout(() => {
+  //           this.router.navigate(['/login']);
+  //         }, 2000);
+  //       },
+  //       error: (err) => {
+  //         this.status = 'error';
+  //         this.showMessage('Error en el registro: ' + err.message, 'error');
+  //       }
+  //     });
+  // }
+
   register() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+
+      if (this.nameField.hasError('invalidEmail')) {
+        this.showMessage('El formato del email es inválido debe tener @ y extensión', 'error');
+      }
+
       if (this.passwordsDoNotMatch) {
         this.showMessage('Las contraseñas no coinciden.', 'error');
       }
@@ -76,9 +122,9 @@ export class FormRegisterComponent implements OnInit {
     }
 
     this.status = 'loading';
-    const { username, password, confirm_password } = this.form.getRawValue(); // ✅ Ensure all values are extracted
+    const { username, password, confirm_password } = this.form.getRawValue();
 
-    this.generalService.register(username, password, confirm_password) // ✅ Pass all three arguments
+    this.generalService.register(username, password, confirm_password)
       .subscribe({
         next: () => {
           this.status = 'success';
@@ -93,6 +139,11 @@ export class FormRegisterComponent implements OnInit {
         }
       });
   }
+
+
+
+
+
 
   private showMessage(message: string, type: 'success' | 'error'): void {
     this.snackBar.open(message, 'Cerrar', {

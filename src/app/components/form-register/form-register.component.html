@@ -12,9 +12,16 @@
         formControlName="username"
         placeholder="Enter your username"
       />
-      <div *ngIf="nameField.invalid && nameField.touched" class="invalid-feedback">
+      <!-- <div *ngIf="nameField.invalid && nameField.touched" class="invalid-feedback">
         Username is required.
+      </div> -->
+
+      <div *ngIf="nameField.invalid && nameField.touched" class="error-message">
+        <span *ngIf="nameField.hasError('required')">El email es obligatorio.</span>
+        <span *ngIf="nameField.hasError('invalidEmail')">El formato del email es inválido</span>
       </div>
+
+
     </div>
 
     <!-- Password Field -->
