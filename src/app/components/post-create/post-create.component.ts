@@ -76,32 +76,6 @@ export class PostCreateComponent implements OnInit {
     });
   }
 
-
-  // onSubmit(): void {
-  //   if (this.createForm.invalid) {
-  //     this.showMessage('Por favor completa los campos correctamente.', 'error');
-  //     return;
-  //   }
-
-  //   let { title, content, is_public, authenticated, team, owner } = this.createForm.value;
-
-  //   // Extraer solo el texto sin etiquetas HTML
-  //   const tempDiv = document.createElement("div");
-  //   tempDiv.innerHTML = content;
-  //   content = tempDiv.textContent || tempDiv.innerText || ""; // Remueve etiquetas HTML
-
-  //   this.blogPostService.createBlogPost(title, content, is_public, authenticated, team, owner).subscribe({
-  //     next: () => {
-  //       this.showMessage('Post creado exitosamente.', 'success');
-  //       this.router.navigate(['/posts']);
-  //     },
-  //     error: (err) => {
-  //       console.error("Error response from backend:", err);
-  //       this.showMessage(err.message, 'error');
-  //     }
-  //   });
-  // }
-
   onSubmit(): void {
     if (this.createForm.invalid) {
       this.showMessage('Por favor completa los campos correctamente.', 'error');
@@ -126,8 +100,6 @@ export class PostCreateComponent implements OnInit {
       }
     });
   }
-
-
 
   onCancel(): void {
     this.router.navigate(['/posts']);

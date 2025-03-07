@@ -157,7 +157,7 @@
   padding: 10px 16px;
   cursor: pointer;
   font-size: 14px;
-  border-radius: 12px; /* Makes buttons slightly rounded */
+  border-radius: 5px; /* Makes buttons slightly rounded */
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 

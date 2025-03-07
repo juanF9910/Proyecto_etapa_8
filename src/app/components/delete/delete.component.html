@@ -4,7 +4,12 @@
   </button>
 </div>
 
-<div class="confirmation-popup" *ngIf="showConfirmation">
+<div class="overlay" *ngIf="showConfirmation"></div>
+
+<div
+  class="confirmation-popup"
+  *ngIf="showConfirmation"
+  (mouseleave)="cancelDelete()">
   <p>Are you sure you want to delete this post?</p>
   <button class="confirm-delete" (click)="deletePost(postId)">Delete</button>
   <button class="cancel-delete" (click)="cancelDelete()">Cancel</button>

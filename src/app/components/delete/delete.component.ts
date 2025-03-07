@@ -1,46 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
+import { Component, Input, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BlogPostService } from '../../services/blog-post.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delete',
-  standalone: true,  // Si es un componente standalone
-  imports: [CommonModule],  // Agrega CommonModule aquí
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './delete.component.html',
   styleUrl: './delete.component.css'
 })
-export class DeleteComponent{
-  @Input() postId!: number;  // Asegúrate de definir el decorador @Input()
+export class DeleteComponent {
+  @Input() postId!: number;
 
   showConfirmation = false;
 
   constructor(
     private postService: BlogPostService,
-    private router: Router) {
-
-  }
+    private router: Router
+  ) {}
 
   confirmDelete() {
     this.showConfirmation = true;
-    this.router.navigate(['/posts']);
   }
 
   cancelDelete() {
     this.showConfirmation = false;
-    this.router.navigate(['/posts']);
   }
 
   deletePost(postId: number) {
-    this.showConfirmation = false; // Hide the popup immediately
-
+    this.showConfirmation = false;
     this.postService.deletePost(this.postId).subscribe({
       next: () => {
         console.log("Post deleted successfully");
-
-        // Refresh the current view or navigate to another page
         this.router.navigate(['/posts']).then(() => {
-          window.location.reload(); // Ensures post list updates
+          window.location.reload();
         });
       },
       error: (error) => {
@@ -49,5 +43,13 @@ export class DeleteComponent{
     });
   }
 
-
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (this.showConfirmation) {
+      const popup = document.querySelector('.confirmation-popup');
+      if (popup && !popup.contains(event.target as Node)) {
+        this.cancelDelete();
+      }
+    }
+  }
 }
